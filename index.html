@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sol Ascension — Idle RPG on Solana</title>
+  <meta name="description" content="An idle RPG universe built on Solana. Tap, ascend, collect. Available exclusively on the Solana Seeker.">
+  <meta property="og:title" content="Sol Ascension">
+  <meta property="og:description" content="An idle RPG universe built on Solana. Tap to fight. Ascend to grow stronger. Available on the Solana Seeker.">
+  <meta property="og:image" content="https://www.sol-ascension.com/assets/bg/start_bg.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #05010f;
+      --purple:  #9945FF;
+      --green:   #14F195;
+      --white:   #F0EDE8;
+      --dim:     #4A4560;
+      --card-bg: rgba(153,69,255,0.06);
+      --card-bd: rgba(153,69,255,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(5,1,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(153,69,255,0.12);
+    }
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.12em;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--green); }
+    .nav-link {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-link:hover { color: var(--white); }
+    .nav-cta {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: 1px solid var(--green);
+      color: var(--green);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: rgba(20,241,149,0.1); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(153,69,255,0.22), transparent 65%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(20,241,149,0.08), transparent 60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: clamp(52px, 10vw, 100px);
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg, #fff 30%, #9945FF 70%, #14F195 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+    .hero-sub {
+      font-family: 'Cinzel', serif;
+      font-weight: 400;
+      font-size: clamp(13px, 2vw, 17px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dim);
+      margin-bottom: 40px;
+    }
+
+    /* ── MANA ORB ── */
+    .orb-wrap {
+      position: relative;
+      width: 120px; height: 120px;
+      margin: 0 auto 48px;
+    }
+    canvas#orbCanvas {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+    }
+    .orb-label {
+      position: absolute;
+      bottom: -22px; left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--dim);
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .hero-desc {
+      max-width: 520px;
+      font-size: 16px;
+      color: rgba(240,237,232,0.65);
+      line-height: 1.75;
+      margin: 0 auto 48px;
+    }
+
+    /* ── STAT PILLS ── */
+    .stats {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 56px;
+    }
+    .stat-pill {
+      padding: 10px 22px;
+      border-radius: 100px;
+      border: 1px solid var(--card-bd);
+      background: var(--card-bg);
+      font-size: 13px;
+    }
+    .stat-pill strong {
+      font-weight: 500;
+      color: var(--green);
+      margin-right: 6px;
+    }
+    .stat-pill span { color: var(--dim); }
+
+    /* ── CTA BUTTONS ── */
+    .cta-row {
+      display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #9945FF, #14F195);
+      color: #05010f;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px;
+      border-radius: 8px;
+      border: 1px solid rgba(153,69,255,0.4);
+      color: var(--white);
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--purple); background: rgba(153,69,255,0.08); }
+
+    /* ── SCROLL HINT ── */
+    .scroll-hint {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--dim); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: fadeup 2s ease infinite;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px; height: 32px;
+      background: linear-gradient(to bottom, var(--dim), transparent);
+    }
+    @keyframes fadeup {
+      0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
+      50% { opacity: 1; transform: translateX(-50%) translateY(-4px); }
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 100%; max-width: 900px;
+      margin: 0 auto;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(153,69,255,0.25), transparent);
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 96px 24px; }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .section-body {
+      font-size: 16px;
+      color: rgba(240,237,232,0.6);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    /* ── FEATURES GRID ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin-top: 56px;
+    }
+    .feature-card {
+      padding: 28px;
+      border-radius: 12px;
+      border: 1px solid var(--card-bd);
+      background: var(--card-bg);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .feature-card:hover {
+      border-color: rgba(153,69,255,0.35);
+      background: rgba(153,69,255,0.09);
+    }
+    .feature-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .feature-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+    .feature-body {
+      font-size: 14px;
+      color: var(--dim);
+      line-height: 1.7;
+    }
+
+    /* ── FLOOR WALL CALLOUT ── */
+    .wall-callout {
+      margin-top: 56px;
+      padding: 32px 36px;
+      border-radius: 12px;
+      border: 1px solid rgba(20,241,149,0.2);
+      background: rgba(20,241,149,0.04);
+      display: flex; gap: 24px; align-items: flex-start;
+    }
+    .wall-callout .wall-num {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 48px;
+      line-height: 1;
+      color: var(--green);
+      flex-shrink: 0;
+    }
+    .wall-callout .wall-label {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .wall-callout .wall-body {
+      font-size: 14px;
+      color: rgba(240,237,232,0.55);
+      line-height: 1.7;
+    }
+
+    /* ── SEEKER SECTION ── */
+    .seeker-section {
+      text-align: center;
+    }
+    .seeker-badge {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 10px 20px;
+      border-radius: 100px;
+      border: 1px solid rgba(153,69,255,0.3);
+      background: rgba(153,69,255,0.08);
+      font-size: 13px;
+      color: var(--dim);
+      margin-bottom: 32px;
+    }
+    .seeker-badge::before {
+      content: '◈';
+      color: var(--purple);
+      font-size: 16px;
+    }
+    .seeker-section .section-body {
+      margin: 16px auto 40px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 48px 24px;
+      border-top: 1px solid rgba(153,69,255,0.1);
+      text-align: center;
+    }
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+      color: var(--white);
+    }
+    .footer-logo span { color: var(--green); }
+    .footer-links {
+      display: flex; gap: 24px; justify-content: center;
+      margin-bottom: 28px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--white); }
+    .footer-copy {
+      font-size: 12px;
+      color: rgba(74,69,96,0.6);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 16px 20px; }
+      .wall-callout { flex-direction: column; gap: 8px; }
+      .wall-callout .wall-num { font-size: 36px; }
+    }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-hint { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">SOL <span>ASCENSION</span></a>
+    <a href="https://www.sol-ascension.com" class="nav-cta" target="_blank">Play Now</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Available on Solana Seeker</p>
+    <div class="orb-wrap">
+      <canvas id="orbCanvas" width="240" height="240"></canvas>
+      <span class="orb-label">Mana</span>
+    </div>
+    <h1>Sol Ascension</h1>
+    <p class="hero-sub">An Idle RPG Universe on Solana</p>
+    <p class="hero-desc">
+      Tap to fight. Ascend to grow stronger. Collect gear, hatch pets, and push
+      through floors until you hit the wall — then break it.
+    </p>
+    <div class="stats">
+      <div class="stat-pill"><strong>200+</strong><span>Floors</span></div>
+      <div class="stat-pill"><strong>6</strong><span>Unique Pets</span></div>
+      <div class="stat-pill"><strong>4</strong><span>Active Skills</span></div>
+      <div class="stat-pill"><strong>Solana</strong><span>Native</span></div>
+    </div>
+    <div class="cta-row">
+      <a href="https://www.sol-ascension.com" class="btn-primary" target="_blank">
+        ▶ Play in Browser
+      </a>
+      <a href="https://dappstore.solanamobile.com" class="btn-secondary" target="_blank">
+        ◈ Seeker dApp Store
+      </a>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section>
+    <div class="section-inner">
+      <p class="section-eyebrow">The Game</p>
+      <h2 class="section-title">Simple to start.<br>Deep to master.</h2>
+      <p class="section-body">
+        Sol Ascension is a tap-based idle RPG where every run makes you permanently stronger.
+        Defeat mobs, collect gold, upgrade your hero, and ascend — carrying your gear and pets
+        into the next cycle at increased power. The further you push, the harder the world pushes back.
+      </p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <span class="feature-icon">⚔</span>
+          <div class="feature-title">Tap Combat</div>
+          <div class="feature-body">Every tap deals damage. Land a critical hit and the screen shakes. Chain skills for burst windows that feel genuinely satisfying.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">✦</span>
+          <div class="feature-title">Ascension System</div>
+          <div class="feature-body">Reset your floor, keep your gear and pets, and return with a permanent damage bonus. Each run is faster than the last.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">◈</span>
+          <div class="feature-title">Gear & Crafting</div>
+          <div class="feature-body">Collect weapons, armor, and accessories across four rarities. Combine duplicates to craft higher-tier items. Equip what makes you strongest.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">◉</span>
+          <div class="feature-title">Pets</div>
+          <div class="feature-body">Hatch six unique pets — each adds a passive bonus. BONK boosts all damage. FOXY multiplies gold. CLAY increases your crit chance.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">◎</span>
+          <div class="feature-title">Active Skills</div>
+          <div class="feature-body">Four mana-powered skills unlock as you progress — War Cry, Hand of Midas, Heavenly Strike, and Shadow Clone. Use them at the right moment.</div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon">♛</span>
+          <div class="feature-title">Leaderboard</div>
+          <div class="feature-body">Compete globally. Your wallet signs your rank. Floor count and ascension count both factor in — depth rewards patience.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- IMMORTAL WALL -->
+  <section>
+    <div class="section-inner">
+      <p class="section-eyebrow">The Wall</p>
+      <h2 class="section-title">Floor 200.<br>The Immortal Wall.</h2>
+      <p class="section-body">
+        At Floor 200, mobs become unkillable. No amount of upgrades, skills, or ascensions
+        will break through by force alone. There is only one way past.
+      </p>
+      <div class="wall-callout">
+        <div class="wall-num">200</div>
+        <div>
+          <div class="wall-label">Holy Divine Set</div>
+          <div class="wall-body">
+            The Holy Divine Set is a permanent on-chain purchase. It shatters the Immortal Wall,
+            transforms your hero's appearance, and unlocks Floors 200 to 1000 — environments,
+            mob artwork, and boss types that standard players never see.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SEEKER -->
+  <section class="seeker-section">
+    <div class="section-inner">
+      <div class="seeker-badge">Built for Solana Mobile</div>
+      <h2 class="section-title">Made for the Seeker.</h2>
+      <p class="section-body">
+        Sol Ascension is designed for the Solana Seeker phone. Connect your Seed Vault wallet
+        in one tap — no passwords, no browser extensions. Your progress is saved on-chain and
+        syncs across devices.
+      </p>
+      <div class="cta-row" style="justify-content:center; margin-top:40px;">
+        <a href="https://www.sol-ascension.com" class="btn-primary" target="_blank">
+          Play Now
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">SOL <span>ASCENSION</span></div>
+    <div class="footer-links">
+      <a href="https://www.sol-ascension.com/privacy">Privacy</a>
+      <a href="https://www.sol-ascension.com/terms">Terms</a>
+      <a href="https://www.sol-ascension.com" target="_blank">Play</a>
+    </div>
+    <div class="footer-copy">© 2025 Sol Ascension · Built on Solana</div>
+  </footer>
+
+  <!-- MANA ORB ANIMATION -->
+  <script>
+    const canvas = document.getElementById('orbCanvas');
+    const ctx = canvas.getContext('2d');
+    const W = 240, H = 240, R = 108;
+    const cx = W/2, cy = H/2;
+    let tiltX = 0, tiltY = 0;
+    let t = 0;
+    // Fake fill oscillates between 40% and 90%
+    function getFill() { return 0.65 + Math.sin(t * 0.4) * 0.25; }
+
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener('deviceorientation', e => {
+        tiltX += (Math.max(-1, Math.min(1, (e.gamma||0)/40)) - tiltX) * 0.12;
+        tiltY += (Math.max(-1, Math.min(1, ((e.beta||0)-15)/40)) - tiltY) * 0.12;
+      });
+    }
+
+    function drawOrb(ts) {
+      t = ts / 1000;
+      ctx.clearRect(0, 0, W, H);
+      const fill = getFill();
+      const tOffset = tiltX * R * 0.4;
+      const tOffY  = tiltY * R * 0.2;
+
+      // Outer glow
+      const glowG = ctx.createRadialGradient(cx, cy, R*0.3, cx, cy, R+20);
+      glowG.addColorStop(0, `rgba(153,69,255,${0.1 + fill*0.18})`);
+      glowG.addColorStop(0.5, `rgba(20,241,149,${fill*0.08})`);
+      glowG.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, R+20, 0, Math.PI*2);
+      ctx.fillStyle = glowG; ctx.fill();
+
+      // Dark base
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(6,3,18,0.95)'; ctx.fill();
+
+      // Liquid
+      ctx.save();
+      ctx.beginPath(); ctx.arc(cx, cy, R-3, 0, Math.PI*2); ctx.clip();
+      const baseY = cy + (R-3)*(1-2*fill) + tOffY;
+      ctx.beginPath();
+      ctx.moveTo(cx-R, baseY+tOffset);
+      ctx.lineTo(cx+R, baseY-tOffset);
+      ctx.lineTo(cx+R, cy+R+4);
+      ctx.lineTo(cx-R, cy+R+4);
+      ctx.closePath();
+      const fillG = ctx.createLinearGradient(cx, cy+R, cx, cy-R);
+      fillG.addColorStop(0, 'rgba(20,241,149,0.95)');
+      fillG.addColorStop(0.45, 'rgba(80,60,210,0.9)');
+      fillG.addColorStop(1, 'rgba(153,69,255,0.8)');
+      ctx.fillStyle = fillG; ctx.fill();
+      // Surface shimmer
+      ctx.beginPath();
+      ctx.moveTo(cx-R, baseY+tOffset);
+      ctx.lineTo(cx+R, baseY-tOffset);
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 2; ctx.stroke();
+      ctx.restore();
+
+      // Shadow depth
+      const shadowG = ctx.createRadialGradient(cx+R*0.3, cy+R*0.3, 0, cx, cy, R);
+      shadowG.addColorStop(0, 'rgba(0,0,0,0)');
+      shadowG.addColorStop(0.7, 'rgba(0,0,0,0)');
+      shadowG.addColorStop(1, 'rgba(0,0,0,0.5)');
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+      ctx.fillStyle = shadowG; ctx.fill();
+
+      // Highlight
+      const hiG = ctx.createRadialGradient(cx-R*0.38, cy-R*0.38, 0, cx-R*0.2, cy-R*0.2, R*0.7);
+      hiG.addColorStop(0, 'rgba(255,255,255,0.38)');
+      hiG.addColorStop(0.4, 'rgba(255,255,255,0.1)');
+      hiG.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+      ctx.fillStyle = hiG; ctx.fill();
+
+      // Specular dot
+      ctx.beginPath(); ctx.arc(cx-R*0.32, cy-R*0.32, R*0.13, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,0.5)'; ctx.fill();
+
+      // White ring
+      ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.beginPath(); ctx.arc(cx, cy, R-5, 0, Math.PI*2);
+      ctx.strokeStyle = 'rgba(255,255,255,0.07)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+      requestAnimationFrame(drawOrb);
+    }
+    requestAnimationFrame(drawOrb);
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.style.opacity = '1', e.target.style.transform = 'translateY(0)';
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.feature-card, .wall-callout, .section-title, .section-body').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
