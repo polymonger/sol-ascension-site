@@ -207,7 +207,8 @@ a{color:inherit;text-decoration:none}
 .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
 .skill-card{background:rgba(107,33,232,.04);border:1px solid rgba(107,33,232,.13);border-radius:14px;padding:36px 32px;display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:start;transition:border-color .3s,background .3s}
 .skill-card:hover{border-color:rgba(107,33,232,.35);background:rgba(107,33,232,.08)}
-.skill-icon{width:56px;height:56px;border-radius:12px;background:rgba(107,33,232,.15);border:1px solid rgba(107,33,232,.25);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.skill-icon{width:56px;height:56px;border-radius:12px;overflow:hidden;border:1px solid rgba(107,33,232,.25);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;background:rgba(107,33,232,.15)}
+.skill-icon img{width:100%;height:100%;object-fit:cover;border-radius:12px}
 .skill-info h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--white);margin-bottom:6px;letter-spacing:.04em}
 .skill-info p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:12px}
 .skill-meta{display:flex;gap:10px;flex-wrap:wrap}
@@ -281,7 +282,9 @@ a{color:inherit;text-decoration:none}
 .ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .ach-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:20px 18px;display:flex;gap:14px;align-items:flex-start;transition:border-color .25s}
 .ach-card:hover{border-color:rgba(245,158,11,.2)}
-.ach-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+.ach-icon{font-size:18px;flex-shrink:0;margin-top:2px;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-style:normal}
+.ach-purple{background:rgba(153,69,255,.15);border:1px solid rgba(153,69,255,.35);color:#c28cff}
+.ach-gold{background:rgba(255,184,48,.12);border:1px solid rgba(255,184,48,.35);color:#FFB830}
 .ach-card h4{font-family:var(--font-display);font-size:12px;font-weight:600;color:var(--white);margin-bottom:4px;letter-spacing:.04em}
 .ach-card p{font-size:12px;color:var(--muted);line-height:1.55}
 @media(max-width:768px){
@@ -299,15 +302,17 @@ a{color:inherit;text-decoration:none}
 .gallery-inner{max-width:1200px;margin:0 auto}
 .gallery-header{text-align:center;margin-bottom:60px}
 .gallery-header p{margin-top:14px;font-size:15px;color:var(--muted)}
-.gallery-track{display:flex;gap:28px;overflow-x:auto;padding-bottom:16px;scrollbar-width:none;-ms-overflow-style:none;cursor:grab}
+.gallery-track{display:flex;gap:28px;overflow-x:auto;padding:20px 40px 32px;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;-webkit-overflow-scrolling:touch;user-select:none}
 .gallery-track::-webkit-scrollbar{display:none}
 .gallery-track.dragging{cursor:grabbing}
-.gallery-card{flex-shrink:0;transform:rotate(-1.5deg);transition:transform .3s,box-shadow .3s}
+.gallery-track.dragging .gallery-card{transition:none}
+.gallery-card{flex-shrink:0;transform:rotate(-1.5deg);transition:transform .3s ease,box-shadow .3s ease}
 .gallery-card:nth-child(even){transform:rotate(1deg) translateY(12px)}
-.gallery-card:hover{transform:rotate(0) translateY(-8px) scale(1.03)!important;z-index:2}
-.gallery-card .ph--screen{box-shadow:0 0 0 1px rgba(107,33,232,.2),0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(107,33,232,.12)}
+.gallery-card:not(.dragging):hover{transform:rotate(0) translateY(-8px) scale(1.03)!important;z-index:2}
+.gallery-card img{box-shadow:0 0 0 1px rgba(107,33,232,.2),0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(107,33,232,.12);border-radius:12px;display:block}
 @media(max-width:768px){
   .gallery{padding:var(--sp-m)}
+  .gallery-track{padding:16px 20px 24px}
   .gallery-card,.gallery-card:nth-child(even){transform:none!important}
 }
 
@@ -483,7 +488,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="#community">Community</a></li>
   </ul>
   <div style="display:flex;gap:10px;align-items:center">
-    <a class="btn btn--primary" href="#" style="padding:10px 20px;font-size:11px">Play Now</a>
+    <a class="btn btn--primary" href="#seeker" style="padding:10px 20px;font-size:11px">Get the Game</a>
   </div>
   <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
@@ -505,7 +510,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         An idle RPG forged on the Solana blockchain. Climb a tower without a ceiling, master four active combat skills, and face the Immortal Wall at Floor 200. Only the Holy Divine Set can take you further.
       </p>
       <div class="hero-actions">
-        <a class="btn btn--primary" href="#">Play on Seeker</a>
+        <a class="btn btn--primary" href="#seeker">Get the Game</a>
         <a class="btn btn--outline" href="#ascension">Explore the Tower</a>
       </div>
       <div class="hero-stats">
@@ -525,17 +530,17 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
 <!-- LORE TICKER -->
 <div class="lore-band">
   <div class="lore-scroll">
-    <span class="lore-item"><span>◆</span>Floor 200 — The Immortal Wall</span>
-    <span class="lore-item"><span>◆</span>Holy Divine Set — Legendary Tier</span>
+    <span class="lore-item"><span>◆</span>Floor 200: The Immortal Wall</span>
+    <span class="lore-item"><span>◆</span>Holy Divine Set: Legendary Tier</span>
     <span class="lore-item"><span>◆</span>War Cry · Midas Touch · Heavenly Strike · Shadow Clone</span>
-    <span class="lore-item"><span>◆</span>Prestige Ascension — Reset. Compound. Transcend.</span>
-    <span class="lore-item"><span>◆</span>On-Chain Shop — Powered by Solana Seed Vault</span>
+    <span class="lore-item"><span>◆</span>Prestige Ascension: Reset. Compound. Transcend.</span>
+    <span class="lore-item"><span>◆</span>On-Chain Shop: Powered by Solana Seed Vault</span>
     <span class="lore-item"><span>◆</span>Built exclusively for Solana Seeker</span>
-    <span class="lore-item"><span>◆</span>Floor 200 — The Immortal Wall</span>
-    <span class="lore-item"><span>◆</span>Holy Divine Set — Legendary Tier</span>
+    <span class="lore-item"><span>◆</span>Floor 200: The Immortal Wall</span>
+    <span class="lore-item"><span>◆</span>Holy Divine Set: Legendary Tier</span>
     <span class="lore-item"><span>◆</span>War Cry · Midas Touch · Heavenly Strike · Shadow Clone</span>
-    <span class="lore-item"><span>◆</span>Prestige Ascension — Reset. Compound. Transcend.</span>
-    <span class="lore-item"><span>◆</span>On-Chain Shop — Powered by Solana Seed Vault</span>
+    <span class="lore-item"><span>◆</span>Prestige Ascension: Reset. Compound. Transcend.</span>
+    <span class="lore-item"><span>◆</span>On-Chain Shop: Powered by Solana Seed Vault</span>
     <span class="lore-item"><span>◆</span>Built exclusively for Solana Seeker</span>
   </div>
 </div>
@@ -549,14 +554,14 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <span class="eyebrow">The Realm Above</span>
       <h2 class="dlg">A Tower Without a Ceiling</h2>
       <p>
-        The tower has stood since before memory. No one built it. No one guards it. It simply exists — and it grows harder with every floor you claim. Warriors from across the realm have entered. Most stop. A few ascend. Fewer still have seen what waits beyond Floor 200.
+        The tower has stood since before memory. No one built it. No one guards it. It simply exists, growing harder with every floor you claim. Warriors from across the realm have entered. Most stop. A few ascend. Fewer still have seen what waits beyond Floor 200.
       </p>
     </div>
     <div class="world-pillars reveal rd1">
       <div class="world-pillar">
         <div class="world-pillar-icon">⚔️</div>
         <h3>Idle Combat, Active Strategy</h3>
-        <p>Your warrior fights automatically — but how far they go depends on the skills you deploy, the equipment you equip, and the upgrades you invest in between floors.</p>
+        <p>Your warrior fights automatically but how far they go depends on the skills you deploy, the equipment you equip, and the upgrades you invest in between floors.</p>
       </div>
       <div class="world-pillar">
         <div class="world-pillar-icon">🔁</div>
@@ -566,7 +571,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="world-pillar">
         <div class="world-pillar-icon">⛓️</div>
         <h3>On-Chain, Always</h3>
-        <p>Purchases go through your Solana Seed Vault — hardware-secured, non-custodial. You sign every transaction. The game never holds your assets.</p>
+        <p>Purchases go through your Solana Seed Vault, hardware-secured, non-custodial. You sign every transaction. The game never holds your assets.</p>
       </div>
     </div>
   </div>
@@ -586,11 +591,11 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         <div class="asc-char">
           <div class="asc-char-glow" id="asc-glow"></div>
           <div class="stages">
-            <img src="assets/progression/hero_stage_1.png" alt="Hero Stage 1" class="stage-img visible" id="stage-0" style="width:160px;height:auto"/>
-            <img src="assets/progression/hero_stage_2.png" alt="Hero Stage 2" class="stage-img" id="stage-1" style="width:160px;height:auto"/>
-            <img src="assets/progression/hero_stage_3.png" alt="Hero Stage 3" class="stage-img" id="stage-2" style="width:160px;height:auto"/>
-            <img src="assets/progression/hero_stage_4.png" alt="Hero Stage 4" class="stage-img" id="stage-3" style="width:160px;height:auto"/>
-            <img src="assets/progression/hero_divine.png" alt="Hero Divine" class="stage-img" id="stage-4" style="width:160px;height:auto"/>
+            <img src="assets/progression/hero_stage_1.png" alt="Hero Stage 1" class="stage-img visible" id="stage-0" style="width:200px;height:auto"/>
+            <img src="assets/progression/hero_stage_2.png" alt="Hero Stage 2" class="stage-img" id="stage-1" style="width:200px;height:auto"/>
+            <img src="assets/progression/hero_stage_3.png" alt="Hero Stage 3" class="stage-img" id="stage-2" style="width:200px;height:auto"/>
+            <img src="assets/progression/hero_stage_4.png" alt="Hero Stage 4" class="stage-img" id="stage-3" style="width:200px;height:auto"/>
+            <img src="assets/progression/hero_divine.png" alt="Hero Divine" class="stage-img" id="stage-4" style="width:200px;height:auto"/>
           </div>
         </div>
         <div class="milestones" id="milestones">
@@ -599,7 +604,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
             <div class="m-line"></div>
             <div class="m-content">
               <h3>The Ascendant Awakens</h3>
-              <p>Your warrior steps into the tower with nothing but raw resolve. Tap to strike. Earn gold. Upgrade damage, health, and speed — then push deeper before the enemies scale past you.</p>
+              <p>Your warrior steps into the tower with nothing but raw resolve. Tap to strike. Earn gold. Upgrade damage, health, and speed, then push deeper before the enemies scale past you.</p>
             </div>
           </div>
           <div class="milestone" data-stage="1">
@@ -607,7 +612,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
             <div class="m-line"></div>
             <div class="m-content">
               <h3>First Skills Unlock</h3>
-              <p>War Cry erupts at Floor 10. Midas Touch follows at Floor 20. The mana orb awakens — a resource that drains on use and fills with time. Active skill timing begins to matter.</p>
+              <p>War Cry erupts at Floor 10. Midas Touch follows at Floor 20. The mana orb awakens, a resource that drains on use and fills with time. Active skill timing begins to matter.</p>
             </div>
           </div>
           <div class="milestone" data-stage="2">
@@ -615,7 +620,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
             <div class="m-line"></div>
             <div class="m-content">
               <h3>Heavenly Strike &amp; Shadow Clone</h3>
-              <p>Heavenly Strike unlocks at Floor 35, calling down a divine burst that shreds elite enemies. Shadow Clone arrives at Floor 100 — your mirror fights beside you, doubling every hit.</p>
+              <p>Heavenly Strike unlocks at Floor 35, calling down a divine burst that shreds elite enemies. Shadow Clone arrives at Floor 100, your mirror fights beside you, doubling every hit.</p>
             </div>
           </div>
           <div class="milestone" data-stage="3">
@@ -623,7 +628,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
             <div class="m-line"></div>
             <div class="m-content">
               <h3>The Tower Remembers</h3>
-              <p>Each ascension resets your floor count but your multiplier compounds permanently. Third-run warriors who've ascended twice feel it — enemies that once stalled them dissolve in seconds.</p>
+              <p>Each ascension resets your floor count but your multiplier compounds permanently. Third-run warriors who've ascended twice feel it, enemies that once stalled them dissolve in seconds.</p>
             </div>
           </div>
           <div class="milestone" data-stage="4">
@@ -647,11 +652,11 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <div class="skills-header reveal">
       <span class="eyebrow">Combat System</span>
       <h2 class="dlg">Four Skills. One Tower.</h2>
-      <p>Sol Ascension is an idle RPG — but idle doesn't mean passive. Each active skill changes how your run plays out. Timing your mana orb is the difference between Floor 180 and Floor 200.</p>
+      <p>Sol Ascension is an idle RPG but idle doesn't mean passive. Each active skill changes how your run plays out. Timing your mana orb is the difference between Floor 180 and Floor 200.</p>
     </div>
     <div class="skills-grid">
       <div class="skill-card reveal">
-        <div class="skill-icon">⚔️</div>
+        <div class="skill-icon"><img src="assets/skills/skill_warcry.jpg" alt="War Cry"/></div>
         <div class="skill-info">
           <h3>War Cry</h3>
           <p>Unleash a battle shout that surges your attack damage for a short window. Best used before elite enemy waves and boss floors to maximize burst damage before the window closes.</p>
@@ -662,7 +667,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         </div>
       </div>
       <div class="skill-card reveal rd1">
-        <div class="skill-icon">💰</div>
+        <div class="skill-icon"><img src="assets/skills/skill_midas.jpg" alt="Midas Touch"/></div>
         <div class="skill-info">
           <h3>Midas Touch</h3>
           <p>Turn your kills into gold. Enemies defeated while Midas Touch is active drop significantly more gold, compressing upgrade time on long runs. Pairs well with high-speed builds.</p>
@@ -673,7 +678,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         </div>
       </div>
       <div class="skill-card reveal rd2">
-        <div class="skill-icon">✨</div>
+        <div class="skill-icon"><img src="assets/skills/skill_heavenly.jpg" alt="Heavenly Strike"/></div>
         <div class="skill-info">
           <h3>Heavenly Strike</h3>
           <p>A divine bolt from above that deals a single massive damage hit to the current enemy. Effective against armored elites and boss-type enemies that resist sustained DPS builds.</p>
@@ -685,7 +690,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         </div>
       </div>
       <div class="skill-card reveal rd3">
-        <div class="skill-icon">🌑</div>
+        <div class="skill-icon"><img src="assets/skills/skill_shadowclone.jpg" alt="Shadow Clone"/></div>
         <div class="skill-info">
           <h3>Shadow Clone</h3>
           <p>Summons a mirror of your warrior to fight alongside you. The clone inherits your current attack power, effectively doubling your DPS output for the duration. The most powerful skill at peak ascension.</p>
@@ -713,7 +718,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <img src="assets/bosses/sbf_boss.png" alt="The Immortal Wall" style="width:100%;max-width:700px;height:auto;position:relative;z-index:1;filter:drop-shadow(0 0 60px rgba(107,33,232,0.5))"/>
     </div>
     <p class="boss-lore reveal rd2">
-      It does not move. It does not speak. It simply exists at Floor 200 as an absolute threshold — a barrier that has turned back every warrior who arrived without the right preparation. The Immortal Wall is not a boss to defeat with levels or time. It is a gate. And the Holy Divine Set is the only key.
+      It does not move. It does not speak. It simply exists at Floor 200 as an absolute threshold, a barrier that has turned back every warrior who arrived without the right preparation. The Immortal Wall is not a boss to defeat with levels or time. It is a gate. And the Holy Divine Set is the only key.
     </p>
     <div class="boss-warning reveal rd3">⚠ &nbsp; ONLY THE HOLY DIVINE SET CAN BREAK THROUGH</div>
   </div>
@@ -732,7 +737,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="feature-card reveal">
         <div class="feature-icon">⚔️</div>
         <h3>Idle Combat</h3>
-        <p>Your warrior fights continuously — no input required. Progress happens whether you're watching or not. Return to find gold waiting, floors cleared, and upgrades ready to spend.</p>
+        <p>Your warrior fights continuously. No input required. Progress happens whether you're watching or not. Return to find gold waiting, floors cleared, and upgrades ready to spend.</p>
       </div>
       <div class="feature-card reveal rd1">
         <div class="feature-icon">🔁</div>
@@ -742,7 +747,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="feature-card reveal rd2">
         <div class="feature-icon">🛡️</div>
         <h3>Equipment Sets</h3>
-        <p>Five tiers from Common to Holy Divine. Each set provides scaling attack, defense, and speed bonuses. Higher tiers are purchased through the on-chain shop using SOL.</p>
+        <p>Five tiers from Common to Holy Divine. Common through Mythical are free for all players. The Holy Divine Set is the only premium tier, purchased through the on-chain shop using SOL.</p>
       </div>
       <div class="feature-card reveal">
         <div class="feature-icon">🌟</div>
@@ -752,12 +757,12 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="feature-card reveal rd1">
         <div class="feature-icon">🏆</div>
         <h3>18 Achievements</h3>
-        <p>Mastery badges track every major milestone — first ascension, Floor 200 reached, Holy Divine equipped, Shadow Clone unlocked, and more. Progress bars show exactly how close you are.</p>
+        <p>18 mastery badges covering kills, floors, boss defeats, gear, pets, vaults, critical hits, ascension count, leaderboard rank, and the Holy Divine Set. Progress bars on every trackable badge.</p>
       </div>
       <div class="feature-card reveal rd2">
         <div class="feature-icon">🌐</div>
         <h3>On-Chain Shop</h3>
-        <p>Buy equipment sets directly with SOL. Every transaction is signed through your Solana Seed Vault. Purchases persist in your save file — they reload instantly on every session.</p>
+        <p>Sol Ascension is free to play. The Holy Divine Set is the only premium item, purchased directly with SOL. Every transaction is signed through your Solana Seed Vault and persists in your save file.</p>
       </div>
     </div>
   </div>
@@ -771,7 +776,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <div class="reveal">
       <span class="eyebrow eyebrow--gold">Legendary Equipment</span>
       <h2 class="dlg">The Holy Divine Set</h2>
-      <p>Five tiers of equipment stand between you and the top of the tower. The Holy Divine Set is the pinnacle — forged for warriors who have already ascended beyond what the tower expected of them.</p>
+      <p>Five tiers of equipment stand between you and the top of the tower. The Holy Divine Set is the pinnacle, forged for warriors who have already ascended beyond what the tower expected of them.</p>
     </div>
     <div class="divine-art reveal rd1">
       <div class="divine-art-glow"></div>
@@ -786,17 +791,17 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="tier-card tier--uncommon">
         <div class="tier-name">Uncommon</div>
         <div class="tier-bonus">Noticeable upgrade. Early floors feel easier.</div>
-        <div class="tier-price">0.005 SOL</div>
+        <div class="tier-price">Free</div>
       </div>
       <div class="tier-card tier--rare">
         <div class="tier-name">Rare</div>
         <div class="tier-bonus">Significant edge past Floor 100.</div>
-        <div class="tier-price">0.01 SOL</div>
+        <div class="tier-price">Free</div>
       </div>
       <div class="tier-card tier--mythical">
         <div class="tier-name">Mythical</div>
         <div class="tier-bonus">Built for deep runs. Approaches Floor 200.</div>
-        <div class="tier-price">0.025 SOL</div>
+        <div class="tier-price">Free</div>
       </div>
       <div class="tier-card tier--divine">
         <div class="tier-name">Holy Divine</div>
@@ -810,7 +815,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div><div class="ds-num">∞</div><div class="ds-lbl">Floor Cap Removed</div></div>
     </div>
     <div style="margin-top:44px" class="reveal rd4">
-      <a class="btn btn--gold" href="#">Claim the Holy Divine Set</a>
+      <a class="btn btn--gold" href="#seeker">Get the Game to Claim It</a>
     </div>
   </div>
 </section>
@@ -825,18 +830,24 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <p>Every major milestone has a badge. Progress bars show how close you are. The MASTERED tab keeps them visible long after you've earned them.</p>
     </div>
     <div class="ach-grid">
-      <div class="ach-card reveal"><div class="ach-icon">🏔️</div><div><h4>First Ascension</h4><p>Complete your first prestige reset and enter the second run.</p></div></div>
-      <div class="ach-card reveal rd1"><div class="ach-icon">💀</div><div><h4>Wall Breaker</h4><p>Equip the Holy Divine Set and push past Floor 200 for the first time.</p></div></div>
-      <div class="ach-card reveal rd2"><div class="ach-icon">🌑</div><div><h4>Shadow Summoner</h4><p>Unlock Shadow Clone by reaching Floor 100.</p></div></div>
-      <div class="ach-card reveal"><div class="ach-icon">⚡</div><div><h4>Heavenly Blessed</h4><p>Unlock Heavenly Strike by reaching Floor 35.</p></div></div>
-      <div class="ach-card reveal rd1"><div class="ach-icon">💰</div><div><h4>Midas Awakened</h4><p>Unlock Midas Touch by reaching Floor 20.</p></div></div>
-      <div class="ach-card reveal rd2"><div class="ach-icon">📣</div><div><h4>Battle Forged</h4><p>Unlock War Cry by reaching Floor 10.</p></div></div>
-      <div class="ach-card reveal"><div class="ach-icon">🛒</div><div><h4>First Purchase</h4><p>Buy any equipment set from the on-chain shop.</p></div></div>
-      <div class="ach-card reveal rd1"><div class="ach-icon">✨</div><div><h4>Divine Collector</h4><p>Own the Holy Divine Set in your inventory.</p></div></div>
-      <div class="ach-card reveal rd2"><div class="ach-icon">🎯</div><div><h4>Century Climber</h4><p>Reach Floor 100 on any single run.</p></div></div>
-      <div class="ach-card reveal"><div class="ach-icon">🔥</div><div><h4>Unstoppable</h4><p>Reach Floor 150 without ascending mid-run.</p></div></div>
-      <div class="ach-card reveal rd1"><div class="ach-icon">🌟</div><div><h4>Mana Master</h4><p>Use all four active skills in a single run.</p></div></div>
-      <div class="ach-card reveal rd2"><div class="ach-icon">🏆</div><div><h4>Tower Legend</h4><p>Ascend five times and prove the tower cannot contain you.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 21l4-4 10-10-3-3L4 14l-1 7zm14-14l2-2-3-3-2 2 3 3zM5 19l-1-1 9-9 1 1-9 9z"/></svg></div><div><h4>First Blood</h4><p>Land your first kill in the tower.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg></div><div><h4>Climber</h4><p>Reach Floor 10 on any run.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4"/></svg></div><div><h4>Rich</h4><p>Accumulate 1,000,000 gold across your runs.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 9l10 13L22 9z"/></svg></div><div><h4>Hatched</h4><p>Hatch your first pet companion.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div><h4>Vault</h4><p>Open 5 treasure vaults.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 6v6c0 5 3.5 9.7 8 11 4.5-1.3 8-6 8-11V6l-8-4z"/><path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div><div><h4>Armored</h4><p>Equip a Rare or higher rarity gear piece.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11L10 22l8.5-11.5H13z"/></svg></div><div><h4>Boss Hunter</h4><p>Defeat 10 bosses across all your runs.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C8.1 3 5 6.1 5 10c0 2.4 1.2 4.5 3 5.7V18h2v2h4v-2h2v-2.3c1.8-1.2 3-3.3 3-5.7 0-3.9-3.1-7-7-7zm-2 13v-1h4v1h-4zm4.5-3.5h-5l-.5-.5v-1l.5-.5h5l.5.5v1l-.5.5zM9.5 11a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg></div><div><h4>Thousand</h4><p>Reach 1,000 total kills in the tower.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17l4 4 10-10-4-4L3 17zm14-12l-2 2 4 4 2-2-4-4zM5 19l-1-1 8-8 1 1-8 8z"/><path d="M15 3l-2 2 4 4 2-2-4-4z"/></svg></div><div><h4>Hoarder</h4><p>Fill all three gear slots: weapon, armor, and accessory.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div><div><h4>Crit King</h4><p>Land 1,000 critical hits across all your runs.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 6l-4.5 4.5L17 17l-5-3-5 3 1.5-6.5L4 6l6.2 2.2z"/></svg></div><div><h4>Ascended</h4><p>Prestige ascend 10 times.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 19L3 5h18z"/></svg></div><div><h4>Descent</h4><p>Reach Floor 200 and face the Immortal Wall.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C8.1 3 5 6.1 5 10c0 2.4 1.2 4.5 3 5.7V18h2v2h4v-2h2v-2.3c1.8-1.2 3-3.3 3-5.7 0-3.9-3.1-7-7-7zM9.5 11a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg></div><div><h4>Boss Slayer</h4><p>Defeat 100 bosses. The tower's guardians fear your name.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2l1.2 4.1L12 5l-3 3 1 4-3.2-2L3.8 12l1-4L2 5l4-.9zm10 0l1.2 4.1L22 5l-3 3 1 4-3.2-2-3.2 1.6 1-4L11 5l4-.9z"/></svg></div><div><h4>Legend</h4><p>Prestige ascend 50 times.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l-5 8h5v8h4V12h5z"/><path d="M17 4l-5 8h5v8h4V12h5z"/></svg></div><div><h4>Floor Master</h4><p>Reach Floor 500. The tower has no ceiling for you.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2 19h20v2H2zm2-2l3-9 5 5 5-5 3 9H4z"/></svg></div><div><h4>Champion</h4><p>Reach the top 100 on the global leaderboard.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M1 19h8v2H1zm7-2l2-6 3 3 3-3 2 6H8zm8 2h7v2h-7zm0-2l2-6 3 3v5h-5z"/></svg></div><div><h4>Floor King</h4><p>Reach Floor 1,000. Reserved for those who have transcended.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l10 10-10 10L2 12z"/></svg></div><div><h4>Divine</h4><p>Purchase and equip the Holy Divine Set.</p></div></div>
     </div>
   </div>
 </section>
@@ -868,7 +879,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <div class="seeker-text reveal">
       <span class="eyebrow">Platform</span>
       <h2 class="dlg">Built for Solana Seeker</h2>
-      <p>Sol Ascension is not a port. It was designed from the ground up for the <a href="https://solanamobile.com" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Solana Seeker</a> — Solana Mobile's second-generation crypto-native Android device. Every transaction runs through the hardware Seed Vault, meaning your wallet is never exposed to the app itself.</p>
+      <p>Sol Ascension is not a port. It was designed from the ground up for the <a href="https://solanamobile.com" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Solana Seeker</a>, Solana Mobile's second-generation crypto-native Android device. Every transaction runs through the hardware Seed Vault, meaning your wallet is never exposed to the app itself.</p>
       <div class="seeker-specs">
         <div class="spec-item"><div class="spec-label">Platform</div><div class="spec-val">Android · Solana Seeker</div></div>
         <div class="spec-item"><div class="spec-label">Distribution</div><div class="spec-val">Solana dApp Store</div></div>
@@ -878,7 +889,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       </div>
       <div class="seeker-actions">
         <a class="btn btn--primary" href="https://solanamobile.com" target="_blank" rel="noopener">Learn About Seeker</a>
-        <a class="btn btn--outline" href="#">Download on dApp Store</a>
+        <span style="font-family:var(--font-display);font-size:11px;letter-spacing:.1em;color:var(--muted);align-self:center;">Available on the Seeker dApp Store</span>
       </div>
     </div>
     <div class="seeker-visual reveal rd1">
@@ -934,7 +945,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         <div class="roadmap-phase phase--now">Now</div>
         <div class="roadmap-dot"></div>
         <div class="roadmap-content">
-          <h3>v0.8 — Live on Solana Seeker dApp Store</h3>
+          <h3>v0.8: Live on Solana Seeker dApp Store</h3>
           <div class="roadmap-tags">
             <span class="rtag rtag--live">✓ Idle Combat</span>
             <span class="rtag rtag--live">✓ 200+ Floors</span>
@@ -950,7 +961,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         <div class="roadmap-phase phase--next">Next</div>
         <div class="roadmap-dot"></div>
         <div class="roadmap-content">
-          <h3>Season 1 — Global Leaderboard &amp; Rankings</h3>
+          <h3>Season 1: Global Leaderboard &amp; Rankings</h3>
           <div class="roadmap-tags">
             <span class="rtag rtag--coming">Global Floor Leaderboard</span>
             <span class="rtag rtag--coming">Ascension Count Rankings</span>
@@ -994,7 +1005,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <div class="changelog-header reveal">
       <span class="eyebrow">Version History</span>
       <h2 class="dlg">Patch Notes</h2>
-      <p>Every build, every fix, every improvement — documented.</p>
+      <p>Every build, every fix, every improvement. Every version tracked.</p>
     </div>
     <div class="cl-list">
 
@@ -1012,7 +1023,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
               <div class="cl-glabel cl-glabel--new">New</div>
               <ul class="cl-items">
                 <li>Four active skills: War Cry (Floor 10), Midas Touch (Floor 20), Heavenly Strike (Floor 35), Shadow Clone (Floor 100)</li>
-                <li>Mana orb system — fills passively over time, depletes on skill activation, resets on ascension</li>
+                <li>Mana orb system, fills passively over time, depletes on skill activation, resets on ascension</li>
                 <li>Achievements expanded from 12 to 18 with progress bars on each badge</li>
                 <li>MASTERED tab replaces UNLOCKED for a cleaner achievement view</li>
                 <li>Privacy Policy page at /privacy and Terms of Use at /terms</li>
@@ -1022,9 +1033,9 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
             <div>
               <div class="cl-glabel cl-glabel--change">Changed</div>
               <ul class="cl-items">
-                <li>Skills and mana reset fully on ascension — each run starts fresh</li>
+                <li>Skills and mana reset fully on ascension, each run starts fresh</li>
                 <li>Ascension power bonus reduced from +20% to +10% per run for better long-term balance</li>
-                <li>Upgrade cost curve steepens faster — doubles every 4 levels instead of 5</li>
+                <li>Upgrade cost curve steepens faster, doubles every 4 levels instead of 5</li>
                 <li>LEGENDARY equipment rarity renamed to MYTHICAL for consistency</li>
               </ul>
             </div>
@@ -1032,7 +1043,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
               <div class="cl-glabel cl-glabel--fix">Fixed</div>
               <ul class="cl-items">
                 <li>Floor 190 and Floor 200 Immortal Wall warning toasts now trigger reliably</li>
-                <li>shopOwned state now persists in save file — purchased items restore immediately on reload</li>
+                <li>shopOwned state now persists in save file, purchased items restore immediately on reload</li>
                 <li>Tap coordinate scaling fixed on high-DPI screens using canvas bounding rect</li>
               </ul>
             </div>
@@ -1053,11 +1064,11 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
             <div>
               <div class="cl-glabel cl-glabel--new">New</div>
               <ul class="cl-items">
-                <li>On-chain equipment shop powered by Mobile Wallet Adapter — purchase sets directly with SOL</li>
+                <li>On-chain equipment shop powered by Mobile Wallet Adapter, purchase sets directly with SOL</li>
                 <li>sol-ascension.com domain live via Cloudflare registrar + Vercel hosting</li>
                 <li>Service worker (sw.js) for offline asset caching with visual progress reporting</li>
                 <li>TWA APK signed and submitted to Solana dApp Store</li>
-                <li>Fairy event system — random bonus gold drops during combat</li>
+                <li>Fairy event system, random bonus gold drops during combat</li>
               </ul>
             </div>
             <div>
@@ -1065,7 +1076,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
               <ul class="cl-items">
                 <li>MWA signAndSendTransactions parameter corrected to payloads array (not transactions)</li>
                 <li>Transaction encoding fixed to standard base64 with padding (was incorrectly base64url)</li>
-                <li>Wallet icon path changed to relative URI — required by dApp Store submission rules</li>
+                <li>Wallet icon path changed to relative URI, required by dApp Store submission rules</li>
               </ul>
             </div>
           </div>
@@ -1086,8 +1097,8 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
               <div class="cl-glabel cl-glabel--new">New</div>
               <ul class="cl-items">
                 <li>Prestige ascension system with permanent power multipliers that compound across runs</li>
-                <li>Five-tier equipment set shop — Common, Uncommon, Rare, Mythical, Holy Divine</li>
-                <li>Global leaderboard — floor and ascension count rankings via cloud backend</li>
+                <li>Five-tier equipment set shop, Common, Uncommon, Rare, Mythical, Holy Divine</li>
+                <li>Global leaderboard, floor and ascension count rankings via cloud backend</li>
                 <li>Cloud save synced to Solana wallet address via Upstash Redis</li>
                 <li>12 achievement badges at launch with unlock conditions</li>
                 <li>Boss encounters every 10 floors with scaling HP and damage</li>
@@ -1111,7 +1122,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <h2 class="dlg">Ascension Begins Now</h2>
     <p>The tower has stood longer than memory. No one has seen what's above Floor 200 without the Holy Divine Set. That changes with you.</p>
     <div class="cta-actions">
-      <a class="btn btn--primary" href="#">Play on Seeker</a>
+      <a class="btn btn--primary" href="#seeker">Get the Game</a>
       <a class="btn btn--outline" href="#community">Join Community</a>
     </div>
   </div>
@@ -1128,7 +1139,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="https://www.sol-ascension.com/terms" target="_blank" rel="noopener">Terms of Use</a></li>
     <li><a href="mailto:support@sol-ascension.com">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved.</div>
+  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260614</span> &nbsp;·&nbsp; 14 Jun 2026</div>
 </footer>
 
 <script>
@@ -1178,16 +1189,67 @@ function onTScroll(){
 window.addEventListener('scroll',onTScroll,{passive:true});
 onTScroll();
 
-/* GALLERY DRAG */
+/* GALLERY DRAG — momentum scroll */
 const gt=document.getElementById('gallery-track');
 if(gt){
-  let down=false,sx,sl;
-  gt.addEventListener('mousedown',e=>{down=true;gt.classList.add('dragging');sx=e.pageX-gt.offsetLeft;sl=gt.scrollLeft;});
-  document.addEventListener('mouseup',()=>{down=false;gt.classList.remove('dragging');});
-  gt.addEventListener('mousemove',e=>{if(!down)return;e.preventDefault();gt.scrollLeft=sl-(e.pageX-gt.offsetLeft-sx)*1.5;});
-  let tsx,tsl;
-  gt.addEventListener('touchstart',e=>{tsx=e.touches[0].pageX-gt.offsetLeft;tsl=gt.scrollLeft;},{passive:true});
-  gt.addEventListener('touchmove',e=>{gt.scrollLeft=tsl-(e.touches[0].pageX-gt.offsetLeft-tsx);},{passive:true});
+  let isDown=false,startX=0,scrollLeft=0,velX=0,lastX=0,lastT=0,rafId=null;
+
+  function momentumScroll(){
+    if(Math.abs(velX)<0.5){cancelAnimationFrame(rafId);return;}
+    gt.scrollLeft+=velX;
+    velX*=0.92;
+    rafId=requestAnimationFrame(momentumScroll);
+  }
+
+  gt.addEventListener('mousedown',e=>{
+    isDown=true;
+    startX=e.clientX;
+    scrollLeft=gt.scrollLeft;
+    velX=0;lastX=e.clientX;lastT=Date.now();
+    gt.classList.add('dragging');
+    cancelAnimationFrame(rafId);
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove',e=>{
+    if(!isDown)return;
+    const dx=e.clientX-startX;
+    gt.scrollLeft=scrollLeft-dx;
+    const now=Date.now();
+    const dt=now-lastT||1;
+    velX=(lastX-e.clientX)/dt*16;
+    lastX=e.clientX;lastT=now;
+  });
+
+  document.addEventListener('mouseup',()=>{
+    if(!isDown)return;
+    isDown=false;
+    gt.classList.remove('dragging');
+    rafId=requestAnimationFrame(momentumScroll);
+  });
+
+  /* Touch */
+  let tStartX=0,tScrollLeft=0,tLastX=0,tLastT=0,tVel=0;
+  gt.addEventListener('touchstart',e=>{
+    tStartX=e.touches[0].clientX;
+    tScrollLeft=gt.scrollLeft;
+    tVel=0;tLastX=tStartX;tLastT=Date.now();
+    cancelAnimationFrame(rafId);
+  },{passive:true});
+
+  gt.addEventListener('touchmove',e=>{
+    const dx=e.touches[0].clientX-tStartX;
+    gt.scrollLeft=tScrollLeft-dx;
+    const now=Date.now();
+    const dt=now-tLastT||1;
+    tVel=(tLastX-e.touches[0].clientX)/dt*16;
+    tLastX=e.touches[0].clientX;tLastT=now;
+  },{passive:true});
+
+  gt.addEventListener('touchend',()=>{
+    velX=tVel;
+    rafId=requestAnimationFrame(momentumScroll);
+  },{passive:true});
 }
 
 /* CHANGELOG ACCORDION */
