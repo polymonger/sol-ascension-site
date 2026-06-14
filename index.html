@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sol Ascension — Climb. Ascend. Transcend.</title>
-<meta name="description" content="Sol Ascension is an idle RPG built exclusively for the Solana Seeker. Climb an infinite tower, master active combat skills, and transcend the Immortal Wall with the legendary Holy Divine Set."/>
-<meta property="og:title" content="Sol Ascension — Climb. Ascend. Transcend."/>
-<meta property="og:description" content="An idle RPG built for Solana Mobile. Ascend beyond Floor 200 and claim the Holy Divine Set."/>
+<title>Sol Ascension . limb. Ascend. Transcend.</title>
+<meta name="description" content="Sol Ascension is an idle RPG built exclusively for the Solana Seeker. Climb an infinite tower, master active combat skills, and ascend beyond what anyone thought possible."/>
+<meta property="og:title" content="Sol Ascension . limb. Ascend. Transcend."/>
+<meta property="og:description" content="An idle RPG built for Solana Mobile. Climb. Ascend. Transcend."/>
 <meta property="og:url" content="https://site.sol-ascension.com"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -220,6 +220,31 @@ a{color:inherit;text-decoration:none}
   .skills{padding:var(--sp-m)}
   .skills-grid{grid-template-columns:1fr}
   .skill-card{grid-template-columns:44px 1fr;padding:24px 20px;gap:14px}
+}
+
+/* =============================================
+   PETS
+============================================= */
+.pets{padding:var(--sp);background:var(--void);position:relative;overflow:hidden}
+.pets-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(107,33,232,.07),transparent);pointer-events:none}
+.pets-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto}
+.pets-header{text-align:center;margin-bottom:64px}
+.pets-header p{margin-top:16px;font-size:17px;color:var(--muted);max-width:580px;margin-left:auto;margin-right:auto}
+.pets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.pet-card{background:rgba(107,33,232,.04);border:1px solid rgba(107,33,232,.1);border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;transition:border-color .3s,background .3s,transform .3s}
+.pet-card:hover{border-color:rgba(107,33,232,.3);background:rgba(107,33,232,.08);transform:translateY(-4px)}
+.pet-img-wrap{width:90px;height:90px;border-radius:50%;background:rgba(107,33,232,.1);border:2px solid rgba(107,33,232,.2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.pet-img-wrap img{width:80px;height:80px;object-fit:contain}
+.pet-name{font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:.15em;color:var(--white)}
+.pet-origin{font-size:11px;font-family:var(--font-display);letter-spacing:.12em;color:var(--violet);margin-top:-8px}
+.pet-bonus{font-size:13px;color:var(--muted);line-height:1.6}
+.pet-tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-family:var(--font-display);letter-spacing:.1em;background:rgba(107,33,232,.12);border:1px solid rgba(107,33,232,.25);color:#c28cff;margin-top:4px}
+@media(max-width:900px){
+  .pets{padding:var(--sp-m)}
+  .pets-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+}
+@media(max-width:480px){
+  .pets-grid{grid-template-columns:1fr}
 }
 
 /* =============================================
@@ -483,6 +508,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="#skills">Skills</a></li>
     <li><a href="#boss">The Wall</a></li>
     <li><a href="#divine">Holy Divine</a></li>
+    <li><a href="#pets">Pets</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#changelog">Changelog</a></li>
     <li><a href="#community">Community</a></li>
@@ -507,7 +533,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       </div>
       <h1 class="dxl">SOL<br>ASCENSION</h1>
       <p class="hero-sub">
-        An idle RPG forged on the Solana blockchain. Climb a tower without a ceiling, master four active combat skills, and face the Immortal Wall at Floor 200. Only the Holy Divine Set can take you further.
+        An idle RPG forged on the Solana blockchain. Climb a tower without a ceiling, master four active combat skills, and push further than any warrior before you.
       </p>
       <div class="hero-actions">
         <a class="btn btn--primary" href="#seeker">Get the Game</a>
@@ -517,12 +543,12 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         <div class="hero-stat"><div class="num">200+</div><div class="lbl">Tower Floors</div></div>
         <div class="hero-stat"><div class="num">4</div><div class="lbl">Active Skills</div></div>
         <div class="hero-stat"><div class="num">18</div><div class="lbl">Achievements</div></div>
-        <div class="hero-stat"><div class="num">5</div><div class="lbl">Equipment Tiers</div></div>
+        <div class="hero-stat"><div class="num">6</div><div class="lbl">Pets</div></div>
       </div>
     </div>
     <div class="hero-visual">
       <div class="hero-char-glow"></div>
-      <img src="assets/hero/divine-warrior.png" alt="Sol Ascension — Divine Warrior" style="width:100%;max-width:380px;height:auto;position:relative;z-index:1;filter:drop-shadow(0 0 40px rgba(107,33,232,0.5))"/>
+      <img src="assets/hero/divine-warrior.png" alt="Sol Ascension . ivine Warrior" style="width:100%;max-width:380px;height:auto;position:relative;z-index:1;filter:drop-shadow(0 0 40px rgba(107,33,232,0.5))"/>
     </div>
   </div>
 </section>
@@ -554,7 +580,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <span class="eyebrow">The Realm Above</span>
       <h2 class="dlg">A Tower Without a Ceiling</h2>
       <p>
-        The tower has stood since before memory. No one built it. No one guards it. It simply exists, growing harder with every floor you claim. Warriors from across the realm have entered. Most stop. A few ascend. Fewer still have seen what waits beyond Floor 200.
+        The tower has stood since before memory. No one built it. No one guards it. It simply exists, growing harder with every floor you claim. Warriors from across the realm have entered. Most stop. A few ascend. The ones who keep going discover something the others never will.
       </p>
     </div>
     <div class="world-pillars reveal rd1">
@@ -635,8 +661,8 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
             <div class="m-floor">Floor 200</div>
             <div class="m-line"></div>
             <div class="m-content">
-              <h3>Holy Divine Transcendence</h3>
-              <p>The Immortal Wall stands here. No ordinary set breaks through. Equip the Holy Divine Set from the on-chain shop, return to Floor 200, and witness what the tower was hiding all along.</p>
+              <h3>Transcendence</h3>
+              <p>The tower's deepest floors reveal themselves only to warriors who have truly ascended. Equip the best gear, push your limits, and see what the tower has been hiding all along.</p>
             </div>
           </div>
         </div>
@@ -652,7 +678,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <div class="skills-header reveal">
       <span class="eyebrow">Combat System</span>
       <h2 class="dlg">Four Skills. One Tower.</h2>
-      <p>Sol Ascension is an idle RPG but idle doesn't mean passive. Each active skill changes how your run plays out. Timing your mana orb is the difference between Floor 180 and Floor 200.</p>
+      <p>Sol Ascension is an idle RPG but idle doesn't mean passive. Each active skill changes how your run plays out. Timing your mana orb is what separates a good run from a great one.</p>
     </div>
     <div class="skills-grid">
       <div class="skill-card reveal">
@@ -747,7 +773,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="feature-card reveal rd2">
         <div class="feature-icon">🛡️</div>
         <h3>Equipment Sets</h3>
-        <p>Five tiers from Common to Holy Divine. Common through Mythical are free for all players. The Holy Divine Set is the only premium tier, purchased through the on-chain shop using SOL.</p>
+        <p>Five equipment tiers from Common through to Holy Divine. The first four tiers are completely free. The Holy Divine Set is the pinnacle tier for dedicated players.</p>
       </div>
       <div class="feature-card reveal">
         <div class="feature-icon">🌟</div>
@@ -762,8 +788,83 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="feature-card reveal rd2">
         <div class="feature-icon">🌐</div>
         <h3>On-Chain Shop</h3>
-        <p>Sol Ascension is free to play. The Holy Divine Set is the only premium item, purchased directly with SOL. Every transaction is signed through your Solana Seed Vault and persists in your save file.</p>
+        <p>Sol Ascension is free to play. For dedicated players, the on-chain shop offers the Holy Divine Set, with every transaction secured through your Solana Seed Vault.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- PETS -->
+<section class="pets" id="pets">
+  <div class="pets-bg"></div>
+  <div class="pets-inner">
+    <div class="pets-header reveal">
+      <span class="eyebrow">Companions</span>
+      <h2 class="dlg">The Pet System</h2>
+      <p>Every pet in Sol Ascension is a face from the Solana ecosystem. Each one brings a unique passive ability that changes how you approach the climb. Choosing the right combination is the difference between stalling and ascending.</p>
+    </div>
+    <div class="pets-grid">
+
+      <div class="pet-card reveal">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/bonk.png" alt="BONK"/>
+        </div>
+        <div class="pet-name">BONK</div>
+        <div class="pet-origin">BONK Token</div>
+        <p class="pet-bonus">Boosts all damage output. Bonk is the crowd favourite for pure floor progression. More damage means fewer stalls on elite floors.</p>
+        <span class="pet-tag">+ All Damage</span>
+      </div>
+
+      <div class="pet-card reveal rd1">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/pudgy.png" alt="Pudgy"/>
+        </div>
+        <div class="pet-name">PUDGY</div>
+        <div class="pet-origin">Pudgy Penguins</div>
+        <p class="pet-bonus">Amplifies critical hit damage. Pair with Clay for a crit-focused build that shreds through armored enemies in fewer hits.</p>
+        <span class="pet-tag">+ Crit Damage</span>
+      </div>
+
+      <div class="pet-card reveal rd2">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/fox.png" alt="Fox"/>
+        </div>
+        <div class="pet-name">FOXY</div>
+        <div class="pet-origin"><a href="https://famousfoxes.com/" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Famous Fox Federation</a></div>
+        <p class="pet-bonus">Increases gold dropped from every enemy. Foxy accelerates your upgrade curve. Faster gold means faster power scaling between floors.</p>
+        <span class="pet-tag">+ Gold Drop</span>
+      </div>
+
+      <div class="pet-card reveal">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/clay.png" alt="Clay"/>
+        </div>
+        <div class="pet-name">CLAY</div>
+        <div class="pet-origin">Claynosaurz</div>
+        <p class="pet-bonus">Raises your critical hit chance. The higher your crit rate, the more consistently you deal burst damage. Essential for boss floor strategies.</p>
+        <span class="pet-tag">+ Crit Chance</span>
+      </div>
+
+      <div class="pet-card reveal rd1">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/monke.png" alt="Monke"/>
+        </div>
+        <div class="pet-name">MONKE</div>
+        <div class="pet-origin">Solana Monkey Business</div>
+        <p class="pet-bonus">Adds combo hits to each attack, landing multiple strikes per tap. MONKE rewards aggressive tap-heavy playstyles with significantly higher DPS.</p>
+        <span class="pet-tag">+ Combo Hits</span>
+      </div>
+
+      <div class="pet-card reveal rd2">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/jup.png" alt="JUP"/>
+        </div>
+        <div class="pet-name">JUP</div>
+        <div class="pet-origin">Jupiter Mobile</div>
+        <p class="pet-bonus">Reduces the number of stages required to clear each floor. JUP is the efficiency pet. Ideal for ascension runs where speed of progression matters most.</p>
+        <span class="pet-tag">- Stages Per Floor</span>
+      </div>
+
     </div>
   </div>
 </section>
@@ -841,7 +942,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17l4 4 10-10-4-4L3 17zm14-12l-2 2 4 4 2-2-4-4zM5 19l-1-1 8-8 1 1-8 8z"/><path d="M15 3l-2 2 4 4 2-2-4-4z"/></svg></div><div><h4>Hoarder</h4><p>Fill all three gear slots: weapon, armor, and accessory.</p></div></div>
       <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div><div><h4>Crit King</h4><p>Land 1,000 critical hits across all your runs.</p></div></div>
       <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 6l-4.5 4.5L17 17l-5-3-5 3 1.5-6.5L4 6l6.2 2.2z"/></svg></div><div><h4>Ascended</h4><p>Prestige ascend 10 times.</p></div></div>
-      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 19L3 5h18z"/></svg></div><div><h4>Descent</h4><p>Reach Floor 200 and face the Immortal Wall.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 19L3 5h18z"/></svg></div><div><h4>Descent</h4><p>Reach Floor 200. Only the most dedicated climbers make it this far.</p></div></div>
       <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C8.1 3 5 6.1 5 10c0 2.4 1.2 4.5 3 5.7V18h2v2h4v-2h2v-2.3c1.8-1.2 3-3.3 3-5.7 0-3.9-3.1-7-7-7zM9.5 11a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg></div><div><h4>Boss Slayer</h4><p>Defeat 100 bosses. The tower's guardians fear your name.</p></div></div>
       <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2l1.2 4.1L12 5l-3 3 1 4-3.2-2L3.8 12l1-4L2 5l4-.9zm10 0l1.2 4.1L22 5l-3 3 1 4-3.2-2-3.2 1.6 1-4L11 5l4-.9z"/></svg></div><div><h4>Legend</h4><p>Prestige ascend 50 times.</p></div></div>
       <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l-5 8h5v8h4V12h5z"/><path d="M17 4l-5 8h5v8h4V12h5z"/></svg></div><div><h4>Floor Master</h4><p>Reach Floor 500. The tower has no ceiling for you.</p></div></div>
@@ -906,7 +1007,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <div class="reveal">
       <span class="eyebrow">Community</span>
       <h2 class="dlg">Join the Climb</h2>
-      <p>Follow for patch notes, floor records, Holy Divine drop alerts, and behind-the-scenes dev updates.</p>
+      <p>Follow for patch notes, floor records, and behind-the-scenes dev updates.</p>
     </div>
     <div class="community-cards">
       <a class="community-card community-card--x reveal" href="https://x.com/SolAscension_" target="_blank" rel="noopener">
@@ -1120,7 +1221,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
   <div class="cta-inner reveal">
     <span class="eyebrow">Your Journey Awaits</span>
     <h2 class="dlg">Ascension Begins Now</h2>
-    <p>The tower has stood longer than memory. No one has seen what's above Floor 200 without the Holy Divine Set. That changes with you.</p>
+    <p>The tower has stood longer than memory. Every floor climbed is a floor no one thought you could reach. That changes with you.</p>
     <div class="cta-actions">
       <a class="btn btn--primary" href="#seeker">Get the Game</a>
       <a class="btn btn--outline" href="#community">Join Community</a>
@@ -1139,7 +1240,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="https://www.sol-ascension.com/terms" target="_blank" rel="noopener">Terms of Use</a></li>
     <li><a href="mailto:support@sol-ascension.com">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260614</span> &nbsp;·&nbsp; 14 Jun 2026</div>
+  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615e</span> &nbsp;·&nbsp; 14 Jun 2026</div>
 </footer>
 
 <script>
