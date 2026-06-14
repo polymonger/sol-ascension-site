@@ -1,0 +1,37 @@
+/* =========================
+   PARALLAX LAYERS
+========================= */
+
+.parallax {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+}
+
+/* Layer 1: Sky (slowest) */
+.sky {
+  background-image: url("assets/backgrounds/stars.webp");
+  opacity: 0.7;
+  z-index: 0;
+}
+
+/* Layer 2: Fog */
+.fog {
+  background: radial-gradient(circle, rgba(120,60,255,0.25), transparent 60%);
+  z-index: 1;
+}
+
+/* Layer 3: Ruins (foreground depth) */
+.ruins {
+  background-image: url("assets/backgrounds/ruins.webp");
+  opacity: 0.35;
+  z-index: 2;
+}
+
+/* Ensure hero content is above everything */
+.hero-content {
+  position: relative;
+  z-index: 5;
+}
