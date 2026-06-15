@@ -180,23 +180,22 @@ a{color:inherit;text-decoration:none}
   /* Mobile: sticky scroll with split layout — char left, text right */
   .asc-sticky-wrap{height:500vh}
   .asc-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;overflow:hidden;padding-top:0}
-  .asc-label{position:relative;top:auto;left:auto;transform:none;padding:24px 20px 12px;text-align:center;width:100%}
-  .asc-label .eyebrow{font-size:9px;margin-bottom:6px}
-  .asc-label .dlg{font-size:20px}
-  .asc-inner{grid-template-columns:120px 1fr;gap:0;padding:0;align-items:stretch;flex:1;height:calc(100vh - 100px)}
-  .asc-char{display:flex;justify-content:center;align-items:flex-end;padding:0 0 40px 16px;border-right:1px solid rgba(107,33,232,.2)}
+  .asc-label{position:relative;top:auto;left:auto;transform:none;padding:20px 20px 8px;text-align:center;width:100%}
+  .asc-label .eyebrow{font-size:9px;margin-bottom:4px}
+  .asc-label .dlg{font-size:18px;line-height:1.1}
+  .asc-inner{grid-template-columns:120px 1fr;gap:0;padding:0;align-items:stretch;flex:1;height:calc(100vh - 90px);min-height:0}
+  .asc-char{display:flex;justify-content:center;align-items:center;padding:0 8px;border-right:1px solid rgba(107,33,232,.2)}
+  .asc-char .stages{display:flex;align-items:center;justify-content:center}
   .asc-char .stages img,.asc-char .stages div{width:100px!important}
-  .asc-char-glow{width:120px;height:120px}
-  .milestones{padding:20px 16px;justify-content:center;gap:0;overflow:hidden}
-  .milestone{opacity:0;transform:translateY(10px);flex-direction:column;gap:6px;padding:0;border:none;background:none;margin:0;position:absolute;top:50%;transform:translateY(-50%)}
+  .asc-char-glow{width:100px;height:100px;bottom:auto;top:50%;transform:translate(-50%,-50%)}
+  .milestones{position:relative;flex:1;padding:0 16px;justify-content:center;gap:0;overflow:hidden}
+  .milestone{opacity:0;flex-direction:column;gap:6px;padding:0;border:none;background:none;margin:0;position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);transition:opacity .4s ease}
   .milestone.active{opacity:1;transform:translateY(-50%)}
   .m-floor{font-size:10px;letter-spacing:.2em;margin-bottom:10px;color:var(--violet)}
   .milestone.active .m-floor{color:var(--gold)}
   .m-line{display:none}
-  .m-content h3{font-size:18px;margin-bottom:10px;line-height:1.2}
+  .m-content h3{font-size:17px;margin-bottom:10px;line-height:1.2}
   .m-content p{font-size:13px;line-height:1.65}
-  /* milestones wrapper needs relative positioning for absolute children */
-  .milestones{position:relative;flex:1}
 }
 
 /* =============================================
@@ -519,7 +518,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
 
 <!-- NAV -->
 <nav class="nav" id="nav">
-  <a href="#" style="text-decoration:none"><div class="nav-logo">SOL<span>◆</span>ASCENSION</div></a>
+  <a href="#" style="text-decoration:none;display:flex;align-items:center"><img src="assets/logo/logo.png" alt="Sol Ascension" style="height:36px;width:auto"/></a>
   <ul class="nav-links">
     <li><a href="#ascension">Ascension</a></li>
     <li><a href="#skills">Skills</a></li>
@@ -1226,7 +1225,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">SOL<span>◆</span>ASCENSION</div>
+  <a href="#" style="text-decoration:none"><img src="assets/logo/logo.png" alt="Sol Ascension" style="height:28px;width:auto"/></a>
   <ul class="footer-links">
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#changelog">Changelog</a></li>
@@ -1235,7 +1234,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="https://www.sol-ascension.com/terms" target="_blank" rel="noopener">Terms of Use</a></li>
     <li><a href="mailto:support@sol-ascension.com">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615m</span> &nbsp;·&nbsp; 14 Jun 2026</div>
+  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615o</span> &nbsp;·&nbsp; 14 Jun 2026</div>
 </footer>
 
 <script>
