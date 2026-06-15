@@ -94,6 +94,7 @@ a{color:inherit;text-decoration:none}
   .nav{padding:16px 20px}
   .nav-links{display:none}
   .hamburger{display:flex}
+  #nav-cta-btn{display:none}
 }
 
 /* =============================================
@@ -144,7 +145,7 @@ a{color:inherit;text-decoration:none}
 .world-inner p{margin-top:22px;font-size:clamp(15px,1.8vw,18px);color:var(--muted);line-height:1.8}
 .world-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px;text-align:left}
 .world-pillar{background:rgba(107,33,232,.05);border:1px solid rgba(107,33,232,.12);border-radius:12px;padding:28px 24px}
-.world-pillar-icon{font-size:24px;margin-bottom:14px}
+.world-pillar-icon{font-size:24px;margin-bottom:14px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.18);border-radius:10px;padding:10px}
 .world-pillar h3{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px;letter-spacing:.05em}
 .world-pillar p{font-size:13px;color:var(--muted);line-height:1.65}
 @media(max-width:768px){
@@ -161,7 +162,7 @@ a{color:inherit;text-decoration:none}
 .asc-bg{position:absolute;inset:0;background:url('assets/backgrounds/stars.webp') center/cover;opacity:.12}
 .asc-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 30% 50%,rgba(107,33,232,.16),transparent);pointer-events:none}
 .asc-label{position:absolute;top:48px;left:50%;transform:translateX(-50%);z-index:3;text-align:center}
-.asc-inner{position:relative;z-index:2;width:100%;max-width:1200px;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.asc-inner{position:relative;z-index:2;width:100%;max-width:1200px;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;box-sizing:border-box}
 .asc-char{display:flex;justify-content:center;align-items:flex-end;position:relative}
 .asc-char-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:280px;height:200px;border-radius:50%;filter:blur(50px);transition:background .6s ease}
 .stages{position:relative}
@@ -176,10 +177,26 @@ a{color:inherit;text-decoration:none}
 .m-content h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--white);margin-bottom:5px}
 .m-content p{font-size:13px;color:var(--muted);line-height:1.6}
 @media(max-width:900px){
-  .asc-inner{grid-template-columns:1fr;padding:0 20px;gap:32px;text-align:center}
-  .asc-char{justify-content:center}
-  .milestone{justify-content:center}
-  .asc-sticky-wrap{height:400vh}
+  /* Mobile: sticky scroll with split layout — char left, text right */
+  .asc-sticky-wrap{height:500vh}
+  .asc-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;overflow:hidden;padding-top:0}
+  .asc-label{position:relative;top:auto;left:auto;transform:none;padding:24px 20px 12px;text-align:center;width:100%}
+  .asc-label .eyebrow{font-size:9px;margin-bottom:6px}
+  .asc-label .dlg{font-size:20px}
+  .asc-inner{grid-template-columns:120px 1fr;gap:0;padding:0;align-items:stretch;flex:1;height:calc(100vh - 100px)}
+  .asc-char{display:flex;justify-content:center;align-items:flex-end;padding:0 0 40px 16px;border-right:1px solid rgba(107,33,232,.2)}
+  .asc-char .stages img,.asc-char .stages div{width:100px!important}
+  .asc-char-glow{width:120px;height:120px}
+  .milestones{padding:20px 16px;justify-content:center;gap:0;overflow:hidden}
+  .milestone{opacity:0;transform:translateY(10px);flex-direction:column;gap:6px;padding:0;border:none;background:none;margin:0;position:absolute;top:50%;transform:translateY(-50%)}
+  .milestone.active{opacity:1;transform:translateY(-50%)}
+  .m-floor{font-size:10px;letter-spacing:.2em;margin-bottom:10px;color:var(--violet)}
+  .milestone.active .m-floor{color:var(--gold)}
+  .m-line{display:none}
+  .m-content h3{font-size:18px;margin-bottom:10px;line-height:1.2}
+  .m-content p{font-size:13px;line-height:1.65}
+  /* milestones wrapper needs relative positioning for absolute children */
+  .milestones{position:relative;flex:1}
 }
 
 /* =============================================
@@ -258,7 +275,7 @@ a{color:inherit;text-decoration:none}
 .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .feature-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:32px 28px;transition:border-color .3s,background .3s}
 .feature-card:hover{border-color:rgba(107,33,232,.3);background:rgba(107,33,232,.05)}
-.feature-icon{font-size:26px;margin-bottom:16px}
+.feature-icon{font-size:26px;margin-bottom:16px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.2);border-radius:10px;padding:8px}
 .feature-card h3{font-family:var(--font-display);font-size:14px;font-weight:600;letter-spacing:.05em;color:var(--white);margin-bottom:10px}
 .feature-card p{font-size:13px;color:var(--muted);line-height:1.7}
 @media(max-width:900px){
@@ -514,7 +531,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="#community">Community</a></li>
   </ul>
   <div style="display:flex;gap:10px;align-items:center">
-    <a class="btn btn--primary" href="#seeker" style="padding:10px 20px;font-size:11px">Get the Game</a>
+    <a class="btn btn--primary" href="#seeker" style="padding:10px 20px;font-size:11px" id="nav-cta-btn">Get the Game</a>
   </div>
   <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
@@ -585,17 +602,17 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     </div>
     <div class="world-pillars reveal rd1">
       <div class="world-pillar">
-        <div class="world-pillar-icon">⚔️</div>
+        <div class="world-pillar-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M14.5 2.5l7 7-10 10-2-1-4 4H3v-2.5l4-4-1-2 10-10zM16 4l4 4-1.5 1.5-4-4L16 4z" fill="#c28cff"/></svg></div>
         <h3>Idle Combat, Active Strategy</h3>
         <p>Your warrior fights automatically but how far they go depends on the skills you deploy, the equipment you equip, and the upgrades you invest in between floors.</p>
       </div>
       <div class="world-pillar">
-        <div class="world-pillar-icon">🔁</div>
+        <div class="world-pillar-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" fill="#c28cff"/></svg></div>
         <h3>Ascension Compounds Power</h3>
         <p>Each prestige run resets your floor count but keeps your ascension multiplier. The second climb is faster. The fifth is overwhelming. The tenth is unstoppable.</p>
       </div>
       <div class="world-pillar">
-        <div class="world-pillar-icon">⛓️</div>
+        <div class="world-pillar-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M10 17H7A5 5 0 017 7h3M14 7h3a5 5 0 010 10h-3M8 12h8" stroke="#c28cff" stroke-width="2" stroke-linecap="round"/></svg></div>
         <h3>On-Chain, Always</h3>
         <p>Purchases go through your Solana Seed Vault, hardware-secured, non-custodial. You sign every transaction. The game never holds your assets.</p>
       </div>
@@ -761,32 +778,32 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     </div>
     <div class="features-grid">
       <div class="feature-card reveal">
-        <div class="feature-icon">⚔️</div>
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M14.5 2.5l7 7-10 10-2-1-4 4H3v-2.5l4-4-1-2 10-10zM16 4l4 4-1.5 1.5-4-4L16 4z" fill="#c28cff"/></svg></div>
         <h3>Idle Combat</h3>
         <p>Your warrior fights continuously. No input required. Progress happens whether you're watching or not. Return to find gold waiting, floors cleared, and upgrades ready to spend.</p>
       </div>
       <div class="feature-card reveal rd1">
-        <div class="feature-icon">🔁</div>
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" fill="#c28cff"/></svg></div>
         <h3>Prestige Ascension</h3>
         <p>Ascending resets your floor count but grants a permanent power multiplier. Every ascension makes the next run faster, deeper, and stronger. There is no final ascension.</p>
       </div>
       <div class="feature-card reveal rd2">
-        <div class="feature-icon">🛡️</div>
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z" fill="#c28cff"/></svg></div>
         <h3>Equipment Sets</h3>
         <p>Five equipment tiers from Common through to Holy Divine. The first four tiers are completely free. The Holy Divine Set is the pinnacle tier for dedicated players.</p>
       </div>
       <div class="feature-card reveal">
-        <div class="feature-icon">🌟</div>
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#c28cff"/></svg></div>
         <h3>Mana Orb System</h3>
         <p>A mana orb fills slowly over time and depletes when you use active skills. Managing when to spend mana versus when to let it rebuild is the hidden depth of Sol Ascension's combat.</p>
       </div>
       <div class="feature-card reveal rd1">
-        <div class="feature-icon">🏆</div>
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M6 2h12v8a6 6 0 01-12 0V2zM4 4H2v4a4 4 0 004 4M20 4h2v4a4 4 0 01-4 4M9 18v2M15 18v2M7 22h10" stroke="#c28cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h3>18 Achievements</h3>
         <p>18 mastery badges covering kills, floors, boss defeats, gear, pets, vaults, critical hits, ascension count, leaderboard rank, and the Holy Divine Set. Progress bars on every trackable badge.</p>
       </div>
       <div class="feature-card reveal rd2">
-        <div class="feature-icon">🌐</div>
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><circle cx="12" cy="12" r="10" stroke="#c28cff" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="#c28cff" stroke-width="2"/></svg></div>
         <h3>On-Chain Shop</h3>
         <p>Sol Ascension is free to play. For dedicated players, the on-chain shop offers the Holy Divine Set, with every transaction secured through your Solana Seed Vault.</p>
       </div>
@@ -1071,30 +1088,8 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
           </div>
         </div>
       </div>
-      <div class="roadmap-item reveal rd2">
-        <div class="roadmap-phase phase--later">Later</div>
-        <div class="roadmap-dot"></div>
-        <div class="roadmap-content">
-          <h3>Guilds &amp; Alliance Wars</h3>
-          <div class="roadmap-tags">
-            <span class="rtag">Guild Formation</span>
-            <span class="rtag">Shared Boss Raids</span>
-            <span class="rtag">Alliance Leaderboards</span>
-          </div>
-        </div>
-      </div>
-      <div class="roadmap-item reveal rd3">
-        <div class="roadmap-phase phase--later">Later</div>
-        <div class="roadmap-dot"></div>
-        <div class="roadmap-content">
-          <h3>SKR Token Integration</h3>
-          <div class="roadmap-tags">
-            <span class="rtag">Earn SKR by Playing</span>
-            <span class="rtag">Token-Gated Floors</span>
-            <span class="rtag">Stake for Bonuses</span>
-          </div>
-        </div>
-      </div>
+
+
     </div>
   </div>
 </section>
@@ -1240,7 +1235,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="https://www.sol-ascension.com/terms" target="_blank" rel="noopener">Terms of Use</a></li>
     <li><a href="mailto:support@sol-ascension.com">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615i</span> &nbsp;·&nbsp; 14 Jun 2026</div>
+  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615m</span> &nbsp;·&nbsp; 14 Jun 2026</div>
 </footer>
 
 <script>
@@ -1287,6 +1282,8 @@ function onTScroll(){
   const prog=Math.max(0,Math.min(1,-r.top/(tWrap.offsetHeight-innerHeight)));
   setStage(Math.min(4,Math.floor(prog*5)));
 }
+// Trigger initial stage on load
+setStage(0);
 window.addEventListener('scroll',onTScroll,{passive:true});
 onTScroll();
 
