@@ -163,9 +163,9 @@ a{color:inherit;text-decoration:none}
 .asc-bg{position:absolute;inset:0;background:url('assets/backgrounds/stars.webp') center/cover;opacity:.12}
 .asc-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 30% 50%,rgba(107,33,232,.16),transparent);pointer-events:none}
 .asc-label{position:absolute;top:48px;left:50%;transform:translateX(-50%);z-index:3;text-align:center}
-.asc-inner{position:relative;z-index:2;width:100%;max-width:1200px;padding:0 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;box-sizing:border-box}
+.asc-inner{position:relative;z-index:2;width:100%;max-width:1200px;padding:0 40px;display:grid;grid-template-columns:420px 1fr;gap:60px;align-items:center;box-sizing:border-box}
 .asc-char{display:flex;justify-content:center;align-items:flex-end;position:relative}
-.asc-char-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:280px;height:200px;border-radius:50%;filter:blur(50px);transition:background .6s ease}
+.asc-char-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:360px;height:260px;border-radius:50%;filter:blur(50px);transition:background .6s ease}
 .stages{position:relative}
 .stage-img{position:absolute;top:0;left:0;opacity:0;transition:opacity .5s ease;width:100%;max-width:340px}
 .stage-img.visible{opacity:1;position:relative}
@@ -184,11 +184,11 @@ a{color:inherit;text-decoration:none}
   .asc-label{position:relative;top:auto;left:auto;transform:none;padding:20px 20px 8px;text-align:center;width:100%}
   .asc-label .eyebrow{font-size:9px;margin-bottom:4px}
   .asc-label .dlg{font-size:18px;line-height:1.1}
-  .asc-inner{grid-template-columns:120px 1fr;gap:0;padding:0;align-items:stretch;flex:1;height:calc(100vh - 90px);min-height:0}
+  .asc-inner{grid-template-columns:175px 1fr;gap:0;padding:0;align-items:stretch;flex:1;height:calc(100vh - 90px);min-height:0}
   .asc-char{display:flex;justify-content:center;align-items:center;padding:0 8px;border-right:1px solid rgba(107,33,232,.2)}
   .asc-char .stages{display:flex;align-items:center;justify-content:center}
-  .asc-char .stages img,.asc-char .stages div{width:100px!important}
-  .asc-char-glow{width:100px;height:100px;bottom:auto;top:50%;transform:translate(-50%,-50%)}
+  .asc-char .stages img,.asc-char .stages div{width:155px!important}
+  .asc-char-glow{width:160px;height:160px;bottom:auto;top:50%;transform:translate(-50%,-50%)}
   .milestones{position:relative;flex:1;padding:0 16px;justify-content:center;gap:0;overflow:hidden}
   .milestone{opacity:0;flex-direction:column;gap:6px;padding:0;border:none;background:none;margin:0;position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);transition:opacity .4s ease}
   .milestone.active{opacity:1;transform:translateY(-50%)}
@@ -478,6 +478,35 @@ a{color:inherit;text-decoration:none}
 }
 
 /* =============================================
+   TEAM
+============================================= */
+.team{padding:var(--sp);background:var(--void);position:relative;overflow:hidden}
+.team-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(107,33,232,.07),transparent);pointer-events:none}
+.team-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;text-align:center}
+.team-header{margin-bottom:60px}
+.team-header p{margin-top:14px;font-size:16px;color:var(--muted);max-width:500px;margin-left:auto;margin-right:auto}
+.team-card{background:rgba(107,33,232,.04);border:1px solid rgba(107,33,232,.12);border-radius:20px;padding:48px 40px;display:flex;gap:48px;align-items:center;text-align:left;transition:border-color .3s}
+.team-card:hover{border-color:rgba(107,33,232,.28)}
+.team-avatar-wrap{flex-shrink:0;position:relative}
+.team-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid rgba(107,33,232,.3);display:block}
+.team-avatar-glow{position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,rgba(107,33,232,.25),transparent 70%);filter:blur(12px);z-index:-1}
+.team-handle{font-family:var(--font-display);font-size:11px;letter-spacing:.15em;color:var(--violet);text-align:center;margin-top:10px;display:block}
+.team-info h3{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white);margin-bottom:6px;letter-spacing:.04em}
+.team-role{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:block}
+.team-bio{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:24px}
+.team-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.team-tag{font-size:11px;font-family:var(--font-display);letter-spacing:.08em;padding:4px 12px;border-radius:20px;background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.2);color:#c28cff}
+.team-links{display:flex;gap:12px}
+.team-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--muted);padding:8px 16px;border-radius:6px;border:1px solid rgba(255,255,255,.1);transition:all .2s;text-decoration:none}
+.team-link:hover{color:var(--white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+@media(max-width:768px){
+  .team{padding:var(--sp-m)}
+  .team-card{flex-direction:column;text-align:center;padding:36px 24px;gap:28px}
+  .team-tags{justify-content:center}
+  .team-links{justify-content:center}
+}
+
+/* =============================================
    CTA FINAL
 ============================================= */
 .cta-final{position:relative;min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
@@ -529,6 +558,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#changelog">Changelog</a></li>
     <li><a href="#community">Community</a></li>
+    <li><a href="#team">Team</a></li>
   </ul>
   <div style="display:flex;gap:10px;align-items:center">
     <a class="btn btn--primary" href="#seeker" style="padding:10px 20px;font-size:11px" id="nav-cta-btn">Coming Soon</a>
@@ -634,11 +664,11 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         <div class="asc-char">
           <div class="asc-char-glow" id="asc-glow"></div>
           <div class="stages">
-            <img src="assets/progression/hero_stage_1.png" alt="Hero Stage 1" class="stage-img visible" id="stage-0" style="width:200px;height:auto"/>
-            <img src="assets/progression/hero_stage_2.png" alt="Hero Stage 2" class="stage-img" id="stage-1" style="width:200px;height:auto"/>
-            <img src="assets/progression/hero_stage_3.png" alt="Hero Stage 3" class="stage-img" id="stage-2" style="width:200px;height:auto"/>
-            <img src="assets/progression/hero_stage_4.png" alt="Hero Stage 4" class="stage-img" id="stage-3" style="width:200px;height:auto"/>
-            <img src="assets/progression/hero_divine.png" alt="Hero Divine" class="stage-img" id="stage-4" style="width:200px;height:auto"/>
+            <img src="assets/progression/hero_stage_1.png" alt="Hero Stage 1" class="stage-img visible" id="stage-0" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_stage_2.png" alt="Hero Stage 2" class="stage-img" id="stage-1" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_stage_3.png" alt="Hero Stage 3" class="stage-img" id="stage-2" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_stage_4.png" alt="Hero Stage 4" class="stage-img" id="stage-3" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_divine.png" alt="Hero Divine" class="stage-img" id="stage-4" style="width:320px;height:auto"/>
           </div>
         </div>
         <div class="milestones" id="milestones">
@@ -1207,6 +1237,49 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
   </div>
 </section>
 
+<!-- TEAM -->
+<section class="team" id="team">
+  <div class="team-bg"></div>
+  <div class="team-inner">
+    <div class="team-header reveal">
+      <span class="eyebrow">Behind the Game</span>
+      <h2 class="dlg">Meet the Developer</h2>
+      <p>Sol Ascension is built by one person. Every floor, every skill, every line of code.</p>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-avatar-wrap">
+        <img src="assets/team/polymonger.jpg" alt="polymonger" class="team-avatar"/>
+        <div class="team-avatar-glow"></div>
+        <span class="team-handle">@polymonger</span>
+      </div>
+      <div class="team-info">
+        <h3>polymonger</h3>
+        <span class="team-role">Solo Developer &amp; Creator</span>
+        <p class="team-bio">
+          polymonger is an independent developer building at the intersection of gaming and the Solana blockchain. Sol Ascension is a fully solo-built project covering game design, on-chain transaction systems, mobile publishing, and everything in between. Based in Southeast Asia, operating across the Solana Mobile ecosystem.
+        </p>
+        <div class="team-tags">
+          <span class="team-tag">Game Development</span>
+          <span class="team-tag">Solana Mobile</span>
+          <span class="team-tag">On-Chain Systems</span>
+          <span class="team-tag">Solo Indie Dev</span>
+          <span class="team-tag">Southeast Asia</span>
+        </div>
+        <div class="team-links">
+          <a class="team-link" href="https://x.com/polymonger" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.258 5.636L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+            @polymonger
+          </a>
+          <a class="team-link" href="https://github.com/polymonger" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA FINAL -->
 <section class="cta-final">
   <div class="cta-bg" data-parallax="0.3"></div>
@@ -1234,7 +1307,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="https://www.sol-ascension.com/terms" target="_blank" rel="noopener">Terms of Use</a></li>
     <li><a href="mailto:support@sol-ascension.com">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615t</span> &nbsp;·&nbsp; 14 Jun 2026</div>
+  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615x</span> &nbsp;·&nbsp; 14 Jun 2026</div>
 </footer>
 
 <script>
