@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Sol Ascension | Climb. Ascend. Transcend.</title>
+<meta name="description" content="Sol Ascension is an idle RPG built exclusively for the Solana Seeker. Climb an infinite tower, master active combat skills, and ascend beyond what anyone thought possible."/>
+<meta property="og:title" content="Sol Ascension | Climb. Ascend. Transcend."/>
+<meta property="og:description" content="An idle RPG built for Solana Mobile. Climb. Ascend. Transcend."/>
+<meta property="og:url" content="https://site.sol-ascension.com"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+
+/* =============================================
+   TOKENS
+============================================= */
+:root {
+  --void:        #05060a;
+  --cosmic:      #0d0618;
+  --purple-deep: #1a0a2e;
+  --violet:      #6b21e8;
+  --violet-glow: rgba(107,33,232,0.35);
+  --gold:        #f59e0b;
+  --gold-dim:    #c47d08;
+  --gold-glow:   rgba(245,158,11,0.3);
+  --moonwhite:   #e2e8f0;
+  --white:       #ffffff;
+  --muted:       rgba(226,232,240,0.55);
+  --font-display:'Cinzel', serif;
+  --font-body:   'Inter', sans-serif;
+  --sp:          140px 24px;
+  --sp-m:        80px 20px;
+}
+
+/* =============================================
+   RESET
+============================================= */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--void);color:var(--moonwhite);font-family:var(--font-body);font-size:16px;line-height:1.65;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* =============================================
+   TYPE
+============================================= */
+.dxl{font-family:var(--font-display);font-size:clamp(52px,8vw,96px);font-weight:900;letter-spacing:.04em;line-height:1;color:var(--white)}
+.dlg{font-family:var(--font-display);font-size:clamp(32px,5vw,60px);font-weight:700;letter-spacing:.03em;line-height:1.1;color:var(--white)}
+.dmd{font-family:var(--font-display);font-size:clamp(22px,3vw,36px);font-weight:600;letter-spacing:.04em;color:var(--white)}
+.dsm{font-family:var(--font-display);font-size:clamp(16px,2vw,22px);font-weight:600;color:var(--white)}
+.eyebrow{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:var(--violet);margin-bottom:16px;display:block}
+.eyebrow--gold{color:var(--gold)}
+.body-lg{font-size:clamp(15px,2vw,18px);color:var(--muted);line-height:1.75}
+
+/* =============================================
+   BUTTONS
+============================================= */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:6px;font-family:var(--font-display);font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;transition:all .2s ease;border:none;white-space:nowrap}
+.btn--primary{background:var(--violet);color:var(--white);box-shadow:0 0 30px var(--violet-glow)}
+.btn--primary:hover{background:#7c3aed;box-shadow:0 0 50px var(--violet-glow);transform:translateY(-2px)}
+.btn--outline{background:transparent;color:var(--moonwhite);border:1px solid rgba(226,232,240,.25)}
+.btn--outline:hover{border-color:rgba(226,232,240,.6);background:rgba(226,232,240,.05)}
+.btn--gold{background:var(--gold);color:#1a0a00;box-shadow:0 0 40px var(--gold-glow);font-weight:700}
+.btn--gold:hover{background:#fbbf24;box-shadow:0 0 60px var(--gold-glow);transform:translateY(-2px)}
+
+/* =============================================
+   STAGE IMAGES (ascension timeline)
+============================================= */
+.stage-img{position:absolute;top:0;left:0;opacity:0;transition:opacity .5s ease}
+.stage-img.visible{opacity:1;position:relative}
+
+/* =============================================
+   REVEAL
+============================================= */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}
+
+/* =============================================
+   NAV
+============================================= */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;transition:background .3s,backdrop-filter .3s}
+.nav.scrolled{background:rgba(5,6,10,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(107,33,232,.15)}
+.nav-logo{font-family:var(--font-display);font-size:17px;font-weight:700;letter-spacing:.15em;color:var(--white)}
+.nav-logo span{color:var(--violet)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{font-family:var(--font-display);font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:var(--white);transition:all .3s}
+@media(max-width:900px){
+  .nav{padding:16px 20px}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  #nav-cta-btn{display:none}
+  .nav-logo-img{height:24px!important}
+}
+
+/* =============================================
+   HERO
+============================================= */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg-stars{position:absolute;inset:-20%;background:url('assets/backgrounds/stars.webp') center/cover no-repeat;opacity:.5;will-change:transform}
+.hero-bg-ruins{position:absolute;inset:-20%;background:url('assets/backgrounds/ruins.webp') center bottom/cover no-repeat;opacity:.25;will-change:transform}
+.hero-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 30% 60%,rgba(107,33,232,.2),transparent),radial-gradient(ellipse 40% 50% at 80% 40%,rgba(245,158,11,.06),transparent);pointer-events:none}
+.hero-fade{position:absolute;bottom:0;left:0;right:0;height:300px;background:linear-gradient(to top,var(--void),transparent);pointer-events:none;z-index:2}
+.hero-inner{position:relative;z-index:3;width:100%;max-width:1400px;margin:0 auto;padding:120px 60px 80px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-kicker{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.hero-kicker-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+.hero-kicker-text{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--gold)}
+.hero-sub{font-size:clamp(16px,2vw,19px);color:var(--muted);margin-top:22px;max-width:480px;line-height:1.75}
+.hero-actions{display:flex;gap:14px;margin-top:40px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:40px;margin-top:52px;padding-top:32px;border-top:1px solid rgba(226,232,240,.07)}
+.hero-stat .num{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--white)}
+.hero-stat .lbl{font-size:11px;letter-spacing:.1em;color:var(--muted);margin-top:2px}
+.hero-visual{display:flex;justify-content:center;align-items:flex-end;position:relative}
+.hero-char-glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:300px;height:300px;background:radial-gradient(circle,var(--violet-glow),transparent 70%);border-radius:50%;filter:blur(40px)}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr;padding:100px 20px 60px;text-align:center}
+  .hero-kicker{justify-content:center}
+  .hero-sub{margin:20px auto 0}
+  .hero-actions{justify-content:center}
+  .hero-stats{justify-content:center}
+  .hero-visual{margin-top:40px}
+}
+
+/* =============================================
+   LORE BAND
+============================================= */
+.lore-band{background:linear-gradient(to right,var(--void),rgba(107,33,232,.08),var(--void));border-top:1px solid rgba(107,33,232,.12);border-bottom:1px solid rgba(107,33,232,.12);padding:28px 24px;overflow:hidden}
+.lore-scroll{display:flex;gap:80px;white-space:nowrap;animation:scroll-lore 30s linear infinite}
+.lore-scroll:hover{animation-play-state:paused}
+.lore-item{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);flex-shrink:0}
+.lore-item span{color:var(--violet);margin-right:10px}
+@keyframes scroll-lore{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* =============================================
+   WORLD INTRO
+============================================= */
+.world{position:relative;padding:var(--sp);text-align:center;overflow:hidden}
+.world-bg{position:absolute;inset:-20%;background:url('assets/backgrounds/floating-islands.webp') center/cover no-repeat;opacity:.1;will-change:transform}
+.world-glow{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(107,33,232,.13),transparent);pointer-events:none}
+.world-inner{position:relative;z-index:2;max-width:800px;margin:0 auto}
+.world-inner p{margin-top:22px;font-size:clamp(15px,1.8vw,18px);color:var(--muted);line-height:1.8}
+.world-pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:64px;text-align:left}
+.world-pillar{background:rgba(107,33,232,.05);border:1px solid rgba(107,33,232,.12);border-radius:12px;padding:28px 24px}
+.world-pillar-icon{font-size:24px;margin-bottom:14px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.18);border-radius:10px;padding:10px}
+.world-pillar h3{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--white);margin-bottom:8px;letter-spacing:.05em}
+.world-pillar p{font-size:13px;color:var(--muted);line-height:1.65}
+@media(max-width:768px){
+  .world{padding:var(--sp-m)}
+  .world-pillars{grid-template-columns:1fr}
+}
+
+/* =============================================
+   ASCENSION TIMELINE
+============================================= */
+.asc-wrap{position:relative;background:var(--cosmic)}
+.asc-sticky-wrap{position:relative;height:500vh}
+.asc-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.asc-bg{position:absolute;inset:0;background:url('assets/backgrounds/stars.webp') center/cover;opacity:.12}
+.asc-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 30% 50%,rgba(107,33,232,.16),transparent);pointer-events:none}
+.asc-label{position:absolute;top:48px;left:50%;transform:translateX(-50%);z-index:3;text-align:center}
+.asc-inner{position:relative;z-index:2;width:100%;max-width:1200px;padding:0 40px;display:grid;grid-template-columns:420px 1fr;gap:60px;align-items:center;box-sizing:border-box}
+.asc-char{display:flex;justify-content:center;align-items:flex-end;position:relative}
+.asc-char-glow{position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:360px;height:260px;border-radius:50%;filter:blur(50px);transition:background .6s ease}
+.stages{position:relative}
+.stage-img{position:absolute;top:0;left:0;opacity:0;transition:opacity .5s ease;width:100%;max-width:340px}
+.stage-img.visible{opacity:1;position:relative}
+.milestones{display:flex;flex-direction:column;gap:22px}
+.milestone{display:flex;gap:20px;align-items:flex-start;opacity:.28;transform:translateX(18px);transition:opacity .4s,transform .4s}
+.milestone.active{opacity:1;transform:translateX(0)}
+.m-floor{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.2em;color:var(--violet);white-space:nowrap;padding-top:3px;min-width:70px}
+.milestone.active .m-floor{color:var(--gold)}
+.m-line{width:1px;background:rgba(107,33,232,.25);margin-top:6px;flex-shrink:0;align-self:stretch}
+.m-content h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--white);margin-bottom:5px}
+.m-content p{font-size:13px;color:var(--muted);line-height:1.6}
+@media(max-width:900px){
+  /* Mobile: sticky scroll with split layout — char left, text right */
+  .asc-sticky-wrap{height:500vh}
+  .asc-sticky{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;overflow:hidden;padding-top:0}
+  .asc-label{position:relative;top:auto;left:auto;transform:none;padding:20px 20px 8px;text-align:center;width:100%}
+  .asc-label .eyebrow{font-size:9px;margin-bottom:4px}
+  .asc-label .dlg{font-size:18px;line-height:1.1}
+  .asc-inner{grid-template-columns:175px 1fr;gap:0;padding:0;align-items:stretch;flex:1;height:calc(100vh - 90px);min-height:0}
+  .asc-char{display:flex;justify-content:center;align-items:center;padding:0 8px;border-right:1px solid rgba(107,33,232,.2)}
+  .asc-char .stages{display:flex;align-items:center;justify-content:center}
+  .asc-char .stages img,.asc-char .stages div{width:155px!important}
+  .asc-char-glow{width:160px;height:160px;bottom:auto;top:50%;transform:translate(-50%,-50%)}
+  .milestones{position:relative;flex:1;padding:0 16px;justify-content:center;gap:0;overflow:hidden}
+  .milestone{opacity:0;flex-direction:column;gap:6px;padding:0;border:none;background:none;margin:0;position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);transition:opacity .4s ease}
+  .milestone.active{opacity:1;transform:translateY(-50%)}
+  .m-floor{font-size:10px;letter-spacing:.2em;margin-bottom:10px;color:var(--violet)}
+  .milestone.active .m-floor{color:var(--gold)}
+  .m-line{display:none}
+  .m-content h3{font-size:17px;margin-bottom:10px;line-height:1.2}
+  .m-content p{font-size:13px;line-height:1.65}
+}
+
+/* =============================================
+   BOSS
+============================================= */
+.boss{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000}
+.boss-bg{position:absolute;inset:-20%;background:url('assets/backgrounds/stars.webp') center/cover;opacity:.2;will-change:transform}
+.boss-bg2{position:absolute;inset:-20%;background:url('assets/backgrounds/ruins.webp') center bottom/cover;opacity:.15;will-change:transform}
+.boss-vig{position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent,rgba(0,0,0,.7) 80%),linear-gradient(to top,rgba(0,0,0,.9),transparent 40%),linear-gradient(to bottom,rgba(0,0,0,.6),transparent 30%);pointer-events:none;z-index:2}
+.boss-inner{position:relative;z-index:3;text-align:center;padding:80px 20px;max-width:920px}
+.boss-art{position:relative;margin:44px auto}
+.boss-art-glow{position:absolute;inset:-40px;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(107,33,232,.28),transparent);filter:blur(30px);z-index:0}
+.boss-art .ph--boss{position:relative;z-index:1;margin:0 auto;filter:drop-shadow(0 0 60px rgba(107,33,232,.5))}
+.boss-lore{font-size:clamp(14px,1.8vw,17px);color:var(--muted);max-width:560px;margin:0 auto;line-height:1.8}
+.boss-warning{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:4px;padding:10px 22px;font-family:var(--font-display);font-size:10px;letter-spacing:.2em;color:var(--gold);margin-top:32px}
+
+/* =============================================
+   SKILLS
+============================================= */
+.skills{position:relative;padding:var(--sp);background:var(--void);overflow:hidden}
+.skills-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(107,33,232,.07),transparent);pointer-events:none}
+.skills-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto}
+.skills-header{text-align:center;margin-bottom:72px}
+.skills-header p{margin-top:16px;font-size:17px;color:var(--muted);max-width:560px;margin-left:auto;margin-right:auto}
+.skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.skill-card{background:rgba(107,33,232,.04);border:1px solid rgba(107,33,232,.13);border-radius:14px;padding:36px 32px;display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:start;transition:border-color .3s,background .3s}
+.skill-card:hover{border-color:rgba(107,33,232,.35);background:rgba(107,33,232,.08)}
+.skill-icon{width:56px;height:56px;border-radius:12px;overflow:hidden;border:1px solid rgba(107,33,232,.25);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;background:rgba(107,33,232,.15)}
+.skill-icon img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.skill-info h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--white);margin-bottom:6px;letter-spacing:.04em}
+.skill-info p{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+.skill-meta{display:flex;gap:10px;flex-wrap:wrap}
+.skill-tag{font-size:11px;font-family:var(--font-display);padding:3px 10px;border-radius:4px;letter-spacing:.08em}
+.skill-tag--unlock{background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.2);color:#a78bfa}
+.skill-tag--mana{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:#93c5fd}
+.skill-tag--cd{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);color:#6ee7b7}
+@media(max-width:768px){
+  .skills{padding:var(--sp-m)}
+  .skills-grid{grid-template-columns:1fr}
+  .skill-card{grid-template-columns:44px 1fr;padding:24px 20px;gap:14px}
+}
+
+/* =============================================
+   PETS
+============================================= */
+.pets{padding:var(--sp);background:var(--void);position:relative;overflow:hidden}
+.pets-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(107,33,232,.07),transparent);pointer-events:none}
+.pets-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto}
+.pets-header{text-align:center;margin-bottom:64px}
+.pets-header p{margin-top:16px;font-size:17px;color:var(--muted);max-width:580px;margin-left:auto;margin-right:auto}
+.pets-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.pet-card{background:rgba(107,33,232,.04);border:1px solid rgba(107,33,232,.1);border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;transition:border-color .3s,background .3s,transform .3s}
+.pet-card:hover{border-color:rgba(107,33,232,.3);background:rgba(107,33,232,.08);transform:translateY(-4px)}
+.pet-img-wrap{width:90px;height:90px;border-radius:50%;background:rgba(107,33,232,.1);border:2px solid rgba(107,33,232,.2);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.pet-img-wrap img{width:80px;height:80px;object-fit:contain}
+.pet-name{font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:.15em;color:var(--white)}
+.pet-origin{font-size:11px;font-family:var(--font-display);letter-spacing:.12em;color:var(--violet);margin-top:-8px}
+.pet-bonus{font-size:13px;color:var(--muted);line-height:1.6}
+.pet-tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-family:var(--font-display);letter-spacing:.1em;background:rgba(107,33,232,.12);border:1px solid rgba(107,33,232,.25);color:#c28cff;margin-top:4px}
+@media(max-width:900px){
+  .pets{padding:var(--sp-m)}
+  .pets-grid{grid-template-columns:repeat(2,1fr);gap:16px}
+}
+@media(max-width:480px){
+  .pets-grid{grid-template-columns:1fr}
+}
+
+/* =============================================
+   FEATURES
+============================================= */
+.features{position:relative;padding:var(--sp);background:var(--cosmic);overflow:hidden}
+.features-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 80% 20%,rgba(107,33,232,.07),transparent),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(245,158,11,.04),transparent);pointer-events:none}
+.features-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto}
+.features-header{text-align:center;margin-bottom:72px}
+.features-header p{margin-top:16px;font-size:17px;color:var(--muted);max-width:540px;margin-left:auto;margin-right:auto}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:32px 28px;transition:border-color .3s,background .3s}
+.feature-card:hover{border-color:rgba(107,33,232,.3);background:rgba(107,33,232,.05)}
+.feature-icon{font-size:26px;margin-bottom:16px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.2);border-radius:10px;padding:8px}
+.feature-card h3{font-family:var(--font-display);font-size:14px;font-weight:600;letter-spacing:.05em;color:var(--white);margin-bottom:10px}
+.feature-card p{font-size:13px;color:var(--muted);line-height:1.7}
+@media(max-width:900px){
+  .features{padding:var(--sp-m)}
+  .features-grid{grid-template-columns:1fr;gap:16px}
+}
+
+/* =============================================
+   DIVINE SET
+============================================= */
+.divine{position:relative;padding:var(--sp);background:linear-gradient(to bottom,var(--void),#0f0820,var(--void));overflow:hidden;text-align:center}
+.divine-bg{position:absolute;inset:-20%;background:url('assets/backgrounds/stars.webp') center/cover;opacity:.08;will-change:transform}
+.divine-glow-t{position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(245,158,11,.1),transparent 70%);filter:blur(40px);pointer-events:none}
+.divine-inner{position:relative;z-index:2;max-width:920px;margin:0 auto}
+.divine-inner>p{margin:18px auto 0;max-width:580px;font-size:17px;color:var(--muted);line-height:1.8}
+.divine-art{margin:60px auto;position:relative}
+.divine-art-glow{position:absolute;inset:-60px;background:radial-gradient(ellipse,rgba(245,158,11,.22),transparent 65%);filter:blur(50px);z-index:0}
+.divine-art .ph--divine{position:relative;z-index:1;filter:drop-shadow(0 0 80px rgba(245,158,11,.4))}
+.divine-tiers{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:56px}
+.tier-card{border-radius:10px;padding:20px 12px;text-align:center;border:1px solid}
+.tier-card .tier-name{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px}
+.tier-card .tier-bonus{font-size:12px;color:var(--muted);line-height:1.5}
+.tier-card .tier-price{font-family:var(--font-display);font-size:11px;margin-top:10px;font-weight:600}
+.tier--common{background:rgba(148,163,184,.05);border-color:rgba(148,163,184,.15)}.tier--common .tier-name{color:#94a3b8}.tier--common .tier-price{color:#94a3b8}
+.tier--uncommon{background:rgba(34,197,94,.05);border-color:rgba(34,197,94,.15)}.tier--uncommon .tier-name{color:#4ade80}.tier--uncommon .tier-price{color:#4ade80}
+.tier--rare{background:rgba(59,130,246,.06);border-color:rgba(59,130,246,.2)}.tier--rare .tier-name{color:#60a5fa}.tier--rare .tier-price{color:#60a5fa}
+.tier--mythical{background:rgba(168,85,247,.07);border-color:rgba(168,85,247,.25)}.tier--mythical .tier-name{color:#c084fc}.tier--mythical .tier-price{color:#c084fc}
+.tier--divine{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.3)}.tier--divine .tier-name{color:var(--gold)}.tier--divine .tier-price{color:var(--gold)}
+.divine-stats{display:flex;justify-content:center;gap:52px;flex-wrap:wrap;margin-top:52px;padding-top:40px;border-top:1px solid rgba(245,158,11,.14)}
+.ds-num{font-family:var(--font-display);font-size:30px;font-weight:700;color:var(--gold)}
+.ds-lbl{font-size:11px;letter-spacing:.1em;color:var(--muted);margin-top:4px}
+@media(max-width:768px){
+  .divine{padding:var(--sp-m)}
+  .divine-tiers{grid-template-columns:repeat(2,1fr)}
+  .divine-stats{gap:28px}
+}
+
+/* =============================================
+   ACHIEVEMENTS
+============================================= */
+.achievements{padding:var(--sp);background:var(--void);position:relative;overflow:hidden}
+.ach-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 20% 80%,rgba(245,158,11,.04),transparent);pointer-events:none}
+.ach-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto}
+.ach-header{text-align:center;margin-bottom:64px}
+.ach-header p{margin-top:14px;font-size:16px;color:var(--muted);max-width:500px;margin-left:auto;margin-right:auto}
+.ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ach-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:20px 18px;display:flex;gap:14px;align-items:flex-start;transition:border-color .25s}
+.ach-card:hover{border-color:rgba(245,158,11,.2)}
+.ach-icon{font-size:18px;flex-shrink:0;margin-top:2px;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-style:normal}
+.ach-purple{background:rgba(153,69,255,.15);border:1px solid rgba(153,69,255,.35);color:#c28cff}
+.ach-gold{background:rgba(255,184,48,.12);border:1px solid rgba(255,184,48,.35);color:#FFB830}
+.ach-card h4{font-family:var(--font-display);font-size:12px;font-weight:600;color:var(--white);margin-bottom:4px;letter-spacing:.04em}
+.ach-card p{font-size:12px;color:var(--muted);line-height:1.55}
+@media(max-width:768px){
+  .achievements{padding:var(--sp-m)}
+  .ach-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .ach-grid{grid-template-columns:1fr}
+}
+
+/* =============================================
+   GALLERY
+============================================= */
+.gallery{padding:var(--sp);overflow:hidden;background:var(--cosmic)}
+.gallery-inner{max-width:1200px;margin:0 auto}
+.gallery-header{text-align:center;margin-bottom:60px}
+.gallery-header p{margin-top:14px;font-size:15px;color:var(--muted)}
+.gallery-track{display:flex;gap:28px;overflow-x:auto;padding:20px 40px 32px;scrollbar-width:none;-ms-overflow-style:none;cursor:grab;-webkit-overflow-scrolling:touch;user-select:none}
+.gallery-track::-webkit-scrollbar{display:none}
+.gallery-track.dragging{cursor:grabbing}
+.gallery-track.dragging .gallery-card{transition:none}
+.gallery-card{flex-shrink:0;transform:rotate(-1.5deg);transition:transform .3s ease,box-shadow .3s ease}
+.gallery-card:nth-child(even){transform:rotate(1deg) translateY(12px)}
+.gallery-card:not(.dragging):hover{transform:rotate(0) translateY(-8px) scale(1.03)!important;z-index:2}
+.gallery-card img{box-shadow:0 0 0 1px rgba(107,33,232,.2),0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(107,33,232,.12);border-radius:12px;display:block}
+@media(max-width:768px){
+  .gallery{padding:var(--sp-m)}
+  .gallery-track{padding:16px 20px 24px}
+  .gallery-card,.gallery-card:nth-child(even){transform:none!important}
+}
+
+/* =============================================
+   SEEKER
+============================================= */
+.seeker{position:relative;padding:var(--sp);overflow:hidden}
+.seeker-bg{position:absolute;inset:-20%;background:url('assets/backgrounds/stars.webp') center/cover;opacity:.1;will-change:transform}
+.seeker-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 70% 50%,rgba(107,33,232,.1),transparent);pointer-events:none}
+.seeker-inner{position:relative;z-index:2;max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.seeker-text .eyebrow{margin-bottom:16px}
+.seeker-text p{margin-top:20px;font-size:17px;color:var(--muted);max-width:460px;line-height:1.8}
+.seeker-specs{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+.spec-item{background:rgba(107,33,232,.06);border:1px solid rgba(107,33,232,.12);border-radius:8px;padding:14px 16px}
+.spec-item .spec-label{font-size:10px;font-family:var(--font-display);letter-spacing:.15em;color:var(--muted);margin-bottom:4px;text-transform:uppercase}
+.spec-item .spec-val{font-size:13px;color:var(--white);font-weight:500}
+.seeker-actions{margin-top:36px;display:flex;gap:12px;flex-wrap:wrap}
+.seeker-visual{display:flex;justify-content:center;position:relative}
+.seeker-phone-glow{position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:200px;height:200px;background:radial-gradient(circle,var(--violet-glow),transparent 70%);filter:blur(30px)}
+@media(max-width:900px){
+  .seeker{padding:var(--sp-m)}
+  .seeker-inner{grid-template-columns:1fr;gap:40px;text-align:center}
+  .seeker-text p{margin-left:auto;margin-right:auto}
+  .seeker-specs{grid-template-columns:1fr 1fr}
+  .seeker-actions{justify-content:center}
+}
+
+/* =============================================
+   COMMUNITY
+============================================= */
+.community{padding:var(--sp);background:var(--cosmic);overflow:hidden;position:relative}
+.community-glow{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 20% 50%,rgba(107,33,232,.07),transparent),radial-gradient(ellipse 40% 50% at 80% 50%,rgba(29,161,242,.05),transparent);pointer-events:none}
+.community-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;text-align:center}
+.community-inner>p{margin:16px auto 0;max-width:500px;font-size:17px;color:var(--muted)}
+.community-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:52px}
+.community-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:40px 32px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;transition:border-color .3s,background .3s,transform .3s;text-decoration:none}
+.community-card:hover{transform:translateY(-4px)}
+.community-card--x:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+.community-card--discord:hover{border-color:rgba(88,101,242,.45);background:rgba(88,101,242,.06)}
+.c-icon{width:52px;height:52px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.c-icon--x{background:#000;border:1px solid rgba(255,255,255,.15)}
+.c-icon--discord{background:#5865F2}
+.community-card h3{font-family:var(--font-display);font-size:17px;font-weight:600;color:var(--white)}
+.community-card p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
+.c-handle{font-family:var(--font-display);font-size:11px;letter-spacing:.1em}
+.community-card--x .c-handle{color:rgba(255,255,255,.45)}
+.community-card--discord .c-handle{color:rgba(88,101,242,.75)}
+.c-pill{display:inline-block;padding:4px 14px;border-radius:20px;font-size:11px;font-family:var(--font-display);letter-spacing:.1em}
+.community-card--x .c-pill{background:rgba(255,255,255,.07);color:var(--moonwhite)}
+.community-card--discord .c-pill{background:rgba(88,101,242,.14);color:#a5b4fc}
+@media(max-width:600px){
+  .community{padding:var(--sp-m)}
+  .community-cards{grid-template-columns:1fr}
+}
+
+/* =============================================
+   ROADMAP
+============================================= */
+.roadmap{padding:var(--sp);background:var(--void);position:relative;overflow:hidden}
+.roadmap-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(107,33,232,.06),transparent);pointer-events:none}
+.roadmap-inner{position:relative;z-index:2;max-width:860px;margin:0 auto}
+.roadmap-header{text-align:center;margin-bottom:64px}
+.roadmap-header p{margin-top:14px;font-size:16px;color:var(--muted)}
+.roadmap-track{position:relative}
+.roadmap-track::before{content:'';position:absolute;left:90px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(107,33,232,.4) 10%,rgba(107,33,232,.2) 80%,transparent)}
+.roadmap-item{display:grid;grid-template-columns:90px 1fr;gap:0 32px;align-items:flex-start;padding:28px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.roadmap-item:last-child{border-bottom:none}
+.roadmap-phase{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;padding-top:4px;text-align:right;padding-right:20px}
+.phase--now{color:var(--gold)}.phase--next{color:var(--violet)}.phase--later{color:var(--muted)}
+.roadmap-dot{position:absolute;left:83px;width:15px;height:15px;border-radius:50%;border:2px solid;margin-top:4px;background:var(--void)}
+.roadmap-item:nth-child(1) .roadmap-dot{border-color:var(--gold);box-shadow:0 0 12px var(--gold-glow)}
+.roadmap-item:nth-child(2) .roadmap-dot{border-color:var(--violet);box-shadow:0 0 12px var(--violet-glow)}
+.roadmap-item:nth-child(3) .roadmap-dot,.roadmap-item:nth-child(4) .roadmap-dot{border-color:rgba(107,33,232,.3)}
+.roadmap-content{position:relative;padding-left:16px}
+.roadmap-content h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--white);margin-bottom:8px}
+.roadmap-tags{display:flex;flex-wrap:wrap;gap:8px}
+.rtag{font-size:12px;color:var(--muted);background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px;padding:3px 10px}
+.rtag--live{background:rgba(245,158,11,.07);border-color:rgba(245,158,11,.2);color:var(--gold)}
+.rtag--coming{background:rgba(107,33,232,.07);border-color:rgba(107,33,232,.2);color:#a78bfa}
+@media(max-width:600px){
+  .roadmap{padding:var(--sp-m)}
+  .roadmap-track::before{left:64px}
+  .roadmap-item{grid-template-columns:64px 1fr;gap:0 16px}
+  .roadmap-dot{left:57px}
+  .roadmap-phase{font-size:9px;padding-right:12px}
+}
+
+/* =============================================
+   CHANGELOG
+============================================= */
+.changelog{padding:var(--sp);background:var(--cosmic);position:relative;overflow:hidden}
+.changelog-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 80% 80%,rgba(245,158,11,.03),transparent);pointer-events:none}
+.changelog-inner{position:relative;z-index:2;max-width:860px;margin:0 auto}
+.changelog-header{margin-bottom:52px}
+.changelog-header p{margin-top:12px;font-size:16px;color:var(--muted)}
+.cl-list{display:flex;flex-direction:column;gap:20px}
+.cl-entry{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:12px;overflow:hidden;transition:border-color .3s}
+.cl-entry:hover{border-color:rgba(107,33,232,.22)}
+.cl-head{display:flex;align-items:center;gap:14px;padding:18px 22px;cursor:pointer;user-select:none}
+.cl-ver{font-family:var(--font-display);font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--white);min-width:52px}
+.cl-vtag{display:inline-block;padding:3px 10px;border-radius:4px;font-size:10px;font-family:var(--font-display);font-weight:600;letter-spacing:.15em;text-transform:uppercase}
+.vtag--latest{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.28);color:var(--gold)}
+.vtag--major{background:rgba(107,33,232,.12);border:1px solid rgba(107,33,232,.28);color:#a78bfa}
+.vtag--patch{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--muted)}
+.cl-date{font-size:11px;color:var(--muted);margin-left:auto}
+.cl-toggle{font-size:16px;color:var(--muted);margin-left:8px;transition:transform .3s}
+.cl-entry.open .cl-toggle{transform:rotate(180deg)}
+.cl-body{display:none;padding:0 22px 22px;border-top:1px solid rgba(255,255,255,.05)}
+.cl-entry.open .cl-body{display:block}
+.cl-summary{font-size:13px;color:var(--muted);margin:14px 0 18px;line-height:1.65}
+.cl-groups{display:flex;flex-direction:column;gap:16px}
+.cl-glabel{font-family:var(--font-display);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+.cl-glabel--fix{color:#34d399}.cl-glabel--new{color:#60a5fa}.cl-glabel--change{color:var(--gold)}
+.cl-items{list-style:none;display:flex;flex-direction:column;gap:5px}
+.cl-items li{font-size:13px;color:var(--moonwhite);padding-left:16px;position:relative;line-height:1.55}
+.cl-items li::before{content:'—';position:absolute;left:0;color:var(--muted)}
+@media(max-width:600px){
+  .changelog{padding:var(--sp-m)}
+  .cl-head{flex-wrap:wrap;gap:8px}
+  .cl-date{margin-left:0;width:100%}
+}
+
+/* =============================================
+   TEAM
+============================================= */
+.team{padding:var(--sp);background:var(--void);position:relative;overflow:hidden}
+.team-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(107,33,232,.07),transparent);pointer-events:none}
+.team-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;text-align:center}
+.team-header{margin-bottom:60px}
+.team-header p{margin-top:14px;font-size:16px;color:var(--muted);max-width:500px;margin-left:auto;margin-right:auto}
+.team-card{background:rgba(107,33,232,.04);border:1px solid rgba(107,33,232,.12);border-radius:20px;padding:48px 40px;display:flex;gap:48px;align-items:center;text-align:left;transition:border-color .3s}
+.team-card:hover{border-color:rgba(107,33,232,.28)}
+.team-avatar-wrap{flex-shrink:0;position:relative}
+.team-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid rgba(107,33,232,.3);display:block}
+.team-avatar-glow{position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,rgba(107,33,232,.25),transparent 70%);filter:blur(12px);z-index:-1}
+.team-handle{font-family:var(--font-display);font-size:11px;letter-spacing:.15em;color:var(--violet);text-align:center;margin-top:10px;display:block}
+.team-info h3{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white);margin-bottom:6px;letter-spacing:.04em}
+.team-role{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:block}
+.team-bio{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:24px}
+.team-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.team-tag{font-size:11px;font-family:var(--font-display);letter-spacing:.08em;padding:4px 12px;border-radius:20px;background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.2);color:#c28cff}
+.team-links{display:flex;gap:12px}
+.team-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--muted);padding:8px 16px;border-radius:6px;border:1px solid rgba(255,255,255,.1);transition:all .2s;text-decoration:none}
+.team-link:hover{color:var(--white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+@media(max-width:768px){
+  .team{padding:var(--sp-m)}
+  .team-card{flex-direction:column;text-align:center;padding:36px 24px;gap:28px}
+  .team-tags{justify-content:center}
+  .team-links{justify-content:center}
+}
+
+/* =============================================
+   CTA FINAL
+============================================= */
+.cta-final{position:relative;min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.cta-bg{position:absolute;inset:-20%;background:url('assets/backgrounds/stars.webp') center/cover;opacity:.28;will-change:transform}
+.cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,rgba(107,33,232,.18),transparent 70%),radial-gradient(ellipse 40% 40% at 50% 50%,rgba(245,158,11,.07),transparent 50%);pointer-events:none}
+.cta-fade{position:absolute;top:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,var(--cosmic),transparent);pointer-events:none}
+.cta-inner{position:relative;z-index:2;padding:80px 20px;max-width:700px}
+.cta-inner p{margin-top:20px;font-size:18px;color:var(--muted)}
+.cta-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:44px}
+
+/* =============================================
+   FOOTER
+============================================= */
+footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:var(--font-display);font-size:14px;font-weight:700;letter-spacing:.12em;color:var(--white)}
+.footer-logo span{color:var(--violet)}
+.footer-links{display:flex;gap:24px;list-style:none;flex-wrap:wrap}
+.footer-links a{font-family:var(--font-display);font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.footer-links a:hover{color:var(--white)}
+.footer-copy{font-size:11px;color:rgba(226,232,240,.28)}
+@media(max-width:600px){
+  footer{padding:28px 20px;text-align:center;flex-direction:column;align-items:center}
+  .footer-links{justify-content:center}
+}
+
+/* =============================================
+   REDUCED MOTION
+============================================= */
+@media(prefers-reduced-motion:reduce){
+  [data-parallax],.hero-bg-stars,.hero-bg-ruins,.world-bg,.boss-bg,.boss-bg2,.divine-bg,.seeker-bg,.cta-bg{transform:none!important}
+  .reveal{opacity:1;transform:none;transition:none}
+  .lore-scroll{animation:none}
+  *{animation:none!important}
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" style="text-decoration:none;display:flex;align-items:center"><img src="assets/logo/logo.png" alt="Sol Ascension" class="nav-logo-img" style="height:36px;width:auto"/></a>
+  <ul class="nav-links">
+    <li><a href="#ascension">Ascension</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#boss">The Wall</a></li>
+    <li><a href="#divine">Holy Divine</a></li>
+    <li><a href="#pets">Pets</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#changelog">Changelog</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#studio">Studio</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center">
+    <a class="btn btn--primary" href="#seeker" style="padding:10px 20px;font-size:11px" id="nav-cta-btn">Coming Soon</a>
+  </div>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg-stars" data-parallax="0.3"></div>
+  <div class="hero-bg-ruins" data-parallax="0.15"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-fade"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-kicker">
+        <span class="hero-kicker-dot"></span>
+        <span class="hero-kicker-text">Coming Soon · Solana dApp Store</span>
+      </div>
+      <h1 class="dxl">SOL<br>ASCENSION</h1>
+      <p class="hero-sub">
+        An idle RPG forged on the Solana blockchain. Climb a tower without a ceiling, master four active combat skills, and push further than any warrior before you.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn--primary" href="#seeker">Coming to dApp Store</a>
+        <a class="btn btn--outline" href="#ascension">Explore the Tower</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">200+</div><div class="lbl">Tower Floors</div></div>
+        <div class="hero-stat"><div class="num">4</div><div class="lbl">Active Skills</div></div>
+        <div class="hero-stat"><div class="num">18</div><div class="lbl">Achievements</div></div>
+        <div class="hero-stat"><div class="num">6</div><div class="lbl">Pets</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-char-glow"></div>
+      <img src="assets/hero/divine-warrior.png" alt="Sol Ascension Divine Warrior" style="width:100%;max-width:380px;height:auto;position:relative;z-index:1;filter:drop-shadow(0 0 40px rgba(107,33,232,0.5))"/>
+    </div>
+  </div>
+</section>
+
+<!-- LORE TICKER -->
+<div class="lore-band">
+  <div class="lore-scroll">
+    <span class="lore-item"><span>◆</span>Floor 200: The Immortal Wall</span>
+    <span class="lore-item"><span>◆</span>Holy Divine Set: Legendary Tier</span>
+    <span class="lore-item"><span>◆</span>War Cry · Midas Touch · Heavenly Strike · Shadow Clone</span>
+    <span class="lore-item"><span>◆</span>Prestige Ascension: Reset. Compound. Transcend.</span>
+    <span class="lore-item"><span>◆</span>On-Chain Shop: Powered by Solana Seed Vault</span>
+    <span class="lore-item"><span>◆</span>Built exclusively for Solana Seeker</span>
+    <span class="lore-item"><span>◆</span>Floor 200: The Immortal Wall</span>
+    <span class="lore-item"><span>◆</span>Holy Divine Set: Legendary Tier</span>
+    <span class="lore-item"><span>◆</span>War Cry · Midas Touch · Heavenly Strike · Shadow Clone</span>
+    <span class="lore-item"><span>◆</span>Prestige Ascension: Reset. Compound. Transcend.</span>
+    <span class="lore-item"><span>◆</span>On-Chain Shop: Powered by Solana Seed Vault</span>
+    <span class="lore-item"><span>◆</span>Built exclusively for Solana Seeker</span>
+  </div>
+</div>
+
+<!-- WORLD INTRO -->
+<section class="world" id="world">
+  <div class="world-bg" data-parallax="0.2"></div>
+  <div class="world-glow"></div>
+  <div class="world-inner">
+    <div class="reveal">
+      <span class="eyebrow">The Realm Above</span>
+      <h2 class="dlg">A Tower Without a Ceiling</h2>
+      <p>
+        The tower has stood since before memory. No one built it. No one guards it. It simply exists, growing harder with every floor you claim. Warriors from across the realm have entered. Most stop. A few ascend. The ones who keep going discover something the others never will.
+      </p>
+    </div>
+    <div class="world-pillars reveal rd1">
+      <div class="world-pillar">
+        <div class="world-pillar-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M14.5 2.5l7 7-10 10-2-1-4 4H3v-2.5l4-4-1-2 10-10zM16 4l4 4-1.5 1.5-4-4L16 4z" fill="#c28cff"/></svg></div>
+        <h3>Idle Combat, Active Strategy</h3>
+        <p>Your warrior fights automatically but how far they go depends on the skills you deploy, the equipment you equip, and the upgrades you invest in between floors.</p>
+      </div>
+      <div class="world-pillar">
+        <div class="world-pillar-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" fill="#c28cff"/></svg></div>
+        <h3>Ascension Compounds Power</h3>
+        <p>Each prestige run resets your floor count but keeps your ascension multiplier. The second climb is faster. The fifth is overwhelming. The tenth is unstoppable.</p>
+      </div>
+      <div class="world-pillar">
+        <div class="world-pillar-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M10 17H7A5 5 0 017 7h3M14 7h3a5 5 0 010 10h-3M8 12h8" stroke="#c28cff" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>On-Chain, Always</h3>
+        <p>Purchases go through your Solana Seed Vault, hardware-secured, non-custodial. You sign every transaction. The game never holds your assets.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ASCENSION TIMELINE -->
+<section class="asc-wrap" id="ascension">
+  <div class="asc-label reveal">
+    <span class="eyebrow">Character Progression</span>
+    <h2 class="dlg">The Path of Ascension</h2>
+  </div>
+  <div class="asc-sticky-wrap">
+    <div class="asc-sticky">
+      <div class="asc-bg"></div>
+      <div class="asc-glow"></div>
+      <div class="asc-inner">
+        <div class="asc-char">
+          <div class="asc-char-glow" id="asc-glow"></div>
+          <div class="stages">
+            <img src="assets/progression/hero_stage_1.png" alt="Hero Stage 1" class="stage-img visible" id="stage-0" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_stage_2.png" alt="Hero Stage 2" class="stage-img" id="stage-1" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_stage_3.png" alt="Hero Stage 3" class="stage-img" id="stage-2" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_stage_4.png" alt="Hero Stage 4" class="stage-img" id="stage-3" style="width:320px;height:auto"/>
+            <img src="assets/progression/hero_divine.png" alt="Hero Divine" class="stage-img" id="stage-4" style="width:320px;height:auto"/>
+          </div>
+        </div>
+        <div class="milestones" id="milestones">
+          <div class="milestone active" data-stage="0">
+            <div class="m-floor">Floor 1</div>
+            <div class="m-line"></div>
+            <div class="m-content">
+              <h3>The Ascendant Awakens</h3>
+              <p>Your warrior steps into the tower with nothing but raw resolve. Tap to strike. Earn gold. Upgrade damage, health, and speed, then push deeper before the enemies scale past you.</p>
+            </div>
+          </div>
+          <div class="milestone" data-stage="1">
+            <div class="m-floor">Floor 25</div>
+            <div class="m-line"></div>
+            <div class="m-content">
+              <h3>First Skills Unlock</h3>
+              <p>War Cry erupts at Floor 10. Midas Touch follows at Floor 20. The mana orb awakens, a resource that drains on use and fills with time. Active skill timing begins to matter.</p>
+            </div>
+          </div>
+          <div class="milestone" data-stage="2">
+            <div class="m-floor">Floor 75</div>
+            <div class="m-line"></div>
+            <div class="m-content">
+              <h3>Heavenly Strike &amp; Shadow Clone</h3>
+              <p>Heavenly Strike unlocks at Floor 35, calling down a divine burst that shreds elite enemies. Shadow Clone arrives at Floor 100, your mirror fights beside you, doubling every hit.</p>
+            </div>
+          </div>
+          <div class="milestone" data-stage="3">
+            <div class="m-floor">Floor 150</div>
+            <div class="m-line"></div>
+            <div class="m-content">
+              <h3>The Tower Remembers</h3>
+              <p>Each ascension resets your floor count but your multiplier compounds permanently. Third-run warriors who've ascended twice feel it, enemies that once stalled them dissolve in seconds.</p>
+            </div>
+          </div>
+          <div class="milestone" data-stage="4">
+            <div class="m-floor">Floor 200</div>
+            <div class="m-line"></div>
+            <div class="m-content">
+              <h3>Transcendence</h3>
+              <p>The tower's deepest floors reveal themselves only to warriors who have truly ascended. Equip the best gear, push your limits, and see what the tower has been hiding all along.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVE SKILLS -->
+<section class="skills" id="skills">
+  <div class="skills-bg"></div>
+  <div class="skills-inner">
+    <div class="skills-header reveal">
+      <span class="eyebrow">Combat System</span>
+      <h2 class="dlg">Four Skills. One Tower.</h2>
+      <p>Sol Ascension is an idle RPG but idle doesn't mean passive. Each active skill changes how your run plays out. Timing your mana orb is what separates a good run from a great one.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="skill-icon"><img src="assets/skills/skill_warcry.jpg" alt="War Cry"/></div>
+        <div class="skill-info">
+          <h3>War Cry</h3>
+          <p>Unleash a battle shout that surges your attack damage for a short window. Best used before elite enemy waves and boss floors to maximize burst damage before the window closes.</p>
+          <div class="skill-meta">
+            <span class="skill-tag skill-tag--unlock">Unlocks Floor 10</span>
+            <span class="skill-tag skill-tag--mana">High Mana Cost</span>
+          </div>
+        </div>
+      </div>
+      <div class="skill-card reveal rd1">
+        <div class="skill-icon"><img src="assets/skills/skill_midas.jpg" alt="Midas Touch"/></div>
+        <div class="skill-info">
+          <h3>Midas Touch</h3>
+          <p>Turn your kills into gold. Enemies defeated while Midas Touch is active drop significantly more gold, compressing upgrade time on long runs. Pairs well with high-speed builds.</p>
+          <div class="skill-meta">
+            <span class="skill-tag skill-tag--unlock">Unlocks Floor 20</span>
+            <span class="skill-tag skill-tag--mana">Medium Mana Cost</span>
+          </div>
+        </div>
+      </div>
+      <div class="skill-card reveal rd2">
+        <div class="skill-icon"><img src="assets/skills/skill_heavenly.jpg" alt="Heavenly Strike"/></div>
+        <div class="skill-info">
+          <h3>Heavenly Strike</h3>
+          <p>A divine bolt from above that deals a single massive damage hit to the current enemy. Effective against armored elites and boss-type enemies that resist sustained DPS builds.</p>
+          <div class="skill-meta">
+            <span class="skill-tag skill-tag--unlock">Unlocks Floor 35</span>
+            <span class="skill-tag skill-tag--mana">High Mana Cost</span>
+            <span class="skill-tag skill-tag--cd">Long Cooldown</span>
+          </div>
+        </div>
+      </div>
+      <div class="skill-card reveal rd3">
+        <div class="skill-icon"><img src="assets/skills/skill_shadowclone.jpg" alt="Shadow Clone"/></div>
+        <div class="skill-info">
+          <h3>Shadow Clone</h3>
+          <p>Summons a mirror of your warrior to fight alongside you. The clone inherits your current attack power, effectively doubling your DPS output for the duration. The most powerful skill at peak ascension.</p>
+          <div class="skill-meta">
+            <span class="skill-tag skill-tag--unlock">Unlocks Floor 100</span>
+            <span class="skill-tag skill-tag--mana">Very High Mana Cost</span>
+            <span class="skill-tag skill-tag--cd">Very Long Cooldown</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOSS SHOWCASE -->
+<section class="boss" id="boss">
+  <div class="boss-bg" data-parallax="0.25"></div>
+  <div class="boss-bg2" data-parallax="0.1"></div>
+  <div class="boss-vig"></div>
+  <div class="boss-inner">
+    <span class="eyebrow reveal">Floor 200 Guardian</span>
+    <h2 class="dxl reveal rd1">THE<br>IMMORTAL WALL</h2>
+    <div class="boss-art reveal rd2">
+      <div class="boss-art-glow"></div>
+      <img src="assets/bosses/sbf_boss.png" alt="The Immortal Wall" style="width:100%;max-width:700px;height:auto;position:relative;z-index:1;filter:drop-shadow(0 0 60px rgba(107,33,232,0.5))"/>
+    </div>
+    <p class="boss-lore reveal rd2">
+      It does not move. It does not speak. It simply exists at Floor 200 as an absolute threshold, a barrier that has turned back every warrior who arrived without the right preparation. The Immortal Wall is not a boss to defeat with levels or time. It is a gate. And the Holy Divine Set is the only key.
+    </p>
+    <div class="boss-warning reveal rd3">⚠ &nbsp; ONLY THE HOLY DIVINE SET CAN BREAK THROUGH</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-bg"></div>
+  <div class="features-inner">
+    <div class="features-header reveal">
+      <span class="eyebrow">Core Gameplay</span>
+      <h2 class="dlg">Built to Ascend</h2>
+      <p>Every system in Sol Ascension is designed around a single truth: the run you're on right now is never your last.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M14.5 2.5l7 7-10 10-2-1-4 4H3v-2.5l4-4-1-2 10-10zM16 4l4 4-1.5 1.5-4-4L16 4z" fill="#c28cff"/></svg></div>
+        <h3>Idle Combat</h3>
+        <p>Your warrior fights continuously. No input required. Progress happens whether you're watching or not. Return to find gold waiting, floors cleared, and upgrades ready to spend.</p>
+      </div>
+      <div class="feature-card reveal rd1">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 4V1L8 5l4 4V6c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" fill="#c28cff"/></svg></div>
+        <h3>Prestige Ascension</h3>
+        <p>Ascending resets your floor count but grants a permanent power multiplier. Every ascension makes the next run faster, deeper, and stronger. There is no final ascension.</p>
+      </div>
+      <div class="feature-card reveal rd2">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 2L4 6v6c0 5.25 3.5 10.15 8 11.35C16.5 22.15 20 17.25 20 12V6l-8-4z" fill="#c28cff"/></svg></div>
+        <h3>Equipment Sets</h3>
+        <p>Five equipment tiers from Common through to Holy Divine. The first four tiers are completely free. The Holy Divine Set is the pinnacle tier for dedicated players.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#c28cff"/></svg></div>
+        <h3>Mana Orb System</h3>
+        <p>A mana orb fills slowly over time and depletes when you use active skills. Managing when to spend mana versus when to let it rebuild is the hidden depth of Sol Ascension's combat.</p>
+      </div>
+      <div class="feature-card reveal rd1">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><path d="M6 2h12v8a6 6 0 01-12 0V2zM4 4H2v4a4 4 0 004 4M20 4h2v4a4 4 0 01-4 4M9 18v2M15 18v2M7 22h10" stroke="#c28cff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>18 Achievements</h3>
+        <p>18 mastery badges covering kills, floors, boss defeats, gear, pets, vaults, critical hits, ascension count, leaderboard rank, and the Holy Divine Set. Progress bars on every trackable badge.</p>
+      </div>
+      <div class="feature-card reveal rd2">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><circle cx="12" cy="12" r="10" stroke="#c28cff" stroke-width="2"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="#c28cff" stroke-width="2"/></svg></div>
+        <h3>On-Chain Shop</h3>
+        <p>Sol Ascension is free to play. For dedicated players, the on-chain shop offers the Holy Divine Set, with every transaction secured through your Solana Seed Vault.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PETS -->
+<section class="pets" id="pets">
+  <div class="pets-bg"></div>
+  <div class="pets-inner">
+    <div class="pets-header reveal">
+      <span class="eyebrow">Companions</span>
+      <h2 class="dlg">The Pet System</h2>
+      <p>Every pet in Sol Ascension is a face from the Solana ecosystem. Each one brings a unique passive ability that changes how you approach the climb. You can only equip one pet at a time, so choosing wisely is the difference between stalling and ascending.</p>
+    </div>
+    <div class="pets-grid">
+
+      <div class="pet-card reveal">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/bonk.png" alt="BONK"/>
+        </div>
+        <div class="pet-name">BONK</div>
+        <div class="pet-origin"><a href="https://www.bonkcoin.com/" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">BONK Token</a></div>
+        <p class="pet-bonus">Boosts all damage output. Bonk is the crowd favourite for pure floor progression. More damage means fewer stalls on elite floors.</p>
+        <span class="pet-tag">+ All Damage</span>
+      </div>
+
+      <div class="pet-card reveal rd1">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/pudgy.png" alt="Pudgy"/>
+        </div>
+        <div class="pet-name">PUDGY</div>
+        <div class="pet-origin"><a href="https://www.pudgypenguins.com/" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Pudgy Penguins</a></div>
+        <p class="pet-bonus">Amplifies critical hit damage. Best equipped when your gear already leans toward high crit chance, turning every critical hit into a devastating burst.</p>
+        <span class="pet-tag">+ Crit Damage</span>
+      </div>
+
+      <div class="pet-card reveal rd2">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/fox.png" alt="Fox"/>
+        </div>
+        <div class="pet-name">FOXY</div>
+        <div class="pet-origin"><a href="https://famousfoxes.com/" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Famous Fox Federation</a></div>
+        <p class="pet-bonus">Increases gold dropped from every enemy. Foxy accelerates your upgrade curve. Faster gold means faster power scaling between floors.</p>
+        <span class="pet-tag">+ Gold Drop</span>
+      </div>
+
+      <div class="pet-card reveal">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/clay.png" alt="Clay"/>
+        </div>
+        <div class="pet-name">CLAY</div>
+        <div class="pet-origin"><a href="https://www.claynosaurz.com/" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Claynosaurz</a></div>
+        <p class="pet-bonus">Increases your overall Luck stat, which raises crit chance, improves fairy spawn rates, and increases your odds of encountering the Vault Guardian for bonus rewards.</p>
+        <span class="pet-tag">+ Luck</span>
+      </div>
+
+      <div class="pet-card reveal rd1">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/monke.png" alt="Monke"/>
+        </div>
+        <div class="pet-name">MONKE</div>
+        <div class="pet-origin"><a href="https://solanamonkey.business/" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Solana Monkey Business</a></div>
+        <p class="pet-bonus">Adds combo hits to each attack, landing multiple strikes per tap. MONKE rewards aggressive tap-heavy playstyles with significantly higher DPS.</p>
+        <span class="pet-tag">+ Combo Hits</span>
+      </div>
+
+      <div class="pet-card reveal rd2">
+        <div class="pet-img-wrap">
+          <img src="assets/pets/jup.png" alt="JUP"/>
+        </div>
+        <div class="pet-name">JUP</div>
+        <div class="pet-origin"><a href="https://jup.ag/mobile" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Jupiter Mobile</a></div>
+        <p class="pet-bonus">Reduces the number of stages required to clear each floor. JUP is the efficiency pet. Ideal for ascension runs where speed of progression matters most.</p>
+        <span class="pet-tag">- Stages Per Floor</span>
+      </div>
+
+    </div>
+    <p style="margin-top:48px;font-size:12px;color:rgba(226,232,240,.35);text-align:center;font-family:var(--font-body);line-height:1.6;max-width:640px;margin-left:auto;margin-right:auto">Sol Ascension is an independent game. Pet characters are inspired by Solana ecosystem projects and are not official collaborations or endorsements.</p>
+  </div>
+</section>
+<section class="divine" id="divine">
+  <div class="divine-bg" data-parallax="0.15"></div>
+  <div class="divine-glow-t"></div>
+  <div class="divine-inner">
+    <div class="reveal">
+      <span class="eyebrow eyebrow--gold">Legendary Equipment</span>
+      <h2 class="dlg">The Holy Divine Set</h2>
+      <p>Five tiers of equipment stand between you and the top of the tower. The Holy Divine Set is the pinnacle, forged for warriors who have already ascended beyond what the tower expected of them.</p>
+    </div>
+    <div class="divine-art reveal rd1">
+      <div class="divine-art-glow"></div>
+      <img src="assets/equipment/holy_divine_set.png" alt="Holy Divine Set" style="width:100%;max-width:500px;height:auto;margin:0 auto;position:relative;z-index:1;filter:drop-shadow(0 0 80px rgba(245,158,11,0.4))"/>
+    </div>
+    <div class="divine-tiers reveal rd2">
+      <div class="tier-card tier--common">
+        <div class="tier-name">Common</div>
+        <div class="tier-bonus">Entry level. Mild stat boost. Free to start.</div>
+        <div class="tier-price">Free</div>
+      </div>
+      <div class="tier-card tier--uncommon">
+        <div class="tier-name">Uncommon</div>
+        <div class="tier-bonus">Noticeable upgrade. Early floors feel easier.</div>
+        <div class="tier-price">Free</div>
+      </div>
+      <div class="tier-card tier--rare">
+        <div class="tier-name">Rare</div>
+        <div class="tier-bonus">Significant edge past Floor 100.</div>
+        <div class="tier-price">Free</div>
+      </div>
+      <div class="tier-card tier--mythical">
+        <div class="tier-name">Mythical</div>
+        <div class="tier-bonus">Built for deep runs. Approaches Floor 200.</div>
+        <div class="tier-price">Free</div>
+      </div>
+      <div class="tier-card tier--divine">
+        <div class="tier-name">Holy Divine</div>
+        <div class="tier-bonus">Breaks the Immortal Wall. Transcendence awaits.</div>
+        <div class="tier-price">0.05 SOL</div>
+      </div>
+    </div>
+    <div class="divine-stats reveal rd3">
+      <div><div class="ds-num">+300%</div><div class="ds-lbl">Attack Power</div></div>
+      <div><div class="ds-num">0.05 SOL</div><div class="ds-lbl">On-Chain Price</div></div>
+      <div><div class="ds-num">∞</div><div class="ds-lbl">Floor Cap Removed</div></div>
+    </div>
+    <div style="margin-top:44px" class="reveal rd4">
+      <a class="btn btn--gold" href="#seeker">Coming Soon to dApp Store</a>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section class="achievements" id="achievements">
+  <div class="ach-bg"></div>
+  <div class="ach-inner">
+    <div class="ach-header reveal">
+      <span class="eyebrow">Mastery System</span>
+      <h2 class="dlg">18 Achievements</h2>
+      <p>Every major milestone has a badge. Progress bars show how close you are. The MASTERED tab keeps them visible long after you've earned them.</p>
+    </div>
+    <div class="ach-grid">
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 21l4-4 10-10-3-3L4 14l-1 7zm14-14l2-2-3-3-2 2 3 3zM5 19l-1-1 9-9 1 1-9 9z"/></svg></div><div><h4>First Blood</h4><p>Land your first kill in the tower.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4l-8 8h5v8h6v-8h5z"/></svg></div><div><h4>Climber</h4><p>Reach Floor 10 on any run.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="12" cy="12" r="4"/></svg></div><div><h4>Rich</h4><p>Accumulate 1,000,000 gold across your runs.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 9l10 13L22 9z"/></svg></div><div><h4>Hatched</h4><p>Hatch your first pet companion.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><div><h4>Vault</h4><p>Open 5 treasure vaults.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L4 6v6c0 5 3.5 9.7 8 11 4.5-1.3 8-6 8-11V6l-8-4z"/><path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div><div><h4>Armored</h4><p>Equip a Rare or higher rarity gear piece.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4.5 13.5H11L10 22l8.5-11.5H13z"/></svg></div><div><h4>Boss Hunter</h4><p>Defeat 10 bosses across all your runs.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C8.1 3 5 6.1 5 10c0 2.4 1.2 4.5 3 5.7V18h2v2h4v-2h2v-2.3c1.8-1.2 3-3.3 3-5.7 0-3.9-3.1-7-7-7zm-2 13v-1h4v1h-4zm4.5-3.5h-5l-.5-.5v-1l.5-.5h5l.5.5v1l-.5.5zM9.5 11a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg></div><div><h4>Thousand</h4><p>Reach 1,000 total kills in the tower.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 17l4 4 10-10-4-4L3 17zm14-12l-2 2 4 4 2-2-4-4zM5 19l-1-1 8-8 1 1-8 8z"/><path d="M15 3l-2 2 4 4 2-2-4-4z"/></svg></div><div><h4>Hoarder</h4><p>Fill all three gear slots: weapon, armor, and accessory.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div><div><h4>Crit King</h4><p>Land 1,000 critical hits across all your runs.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 6l-4.5 4.5L17 17l-5-3-5 3 1.5-6.5L4 6l6.2 2.2z"/></svg></div><div><h4>Ascended</h4><p>Prestige ascend 10 times.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 19L3 5h18z"/></svg></div><div><h4>Descent</h4><p>Reach Floor 200. Only the most dedicated climbers make it this far.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C8.1 3 5 6.1 5 10c0 2.4 1.2 4.5 3 5.7V18h2v2h4v-2h2v-2.3c1.8-1.2 3-3.3 3-5.7 0-3.9-3.1-7-7-7zM9.5 11a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg></div><div><h4>Boss Slayer</h4><p>Defeat 100 bosses. The tower's guardians fear your name.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2l1.2 4.1L12 5l-3 3 1 4-3.2-2L3.8 12l1-4L2 5l4-.9zm10 0l1.2 4.1L22 5l-3 3 1 4-3.2-2-3.2 1.6 1-4L11 5l4-.9z"/></svg></div><div><h4>Legend</h4><p>Prestige ascend 50 times.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4l-5 8h5v8h4V12h5z"/><path d="M17 4l-5 8h5v8h4V12h5z"/></svg></div><div><h4>Floor Master</h4><p>Reach Floor 500. The tower has no ceiling for you.</p></div></div>
+      <div class="ach-card reveal"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M2 19h20v2H2zm2-2l3-9 5 5 5-5 3 9H4z"/></svg></div><div><h4>Champion</h4><p>Reach the top 100 on the global leaderboard.</p></div></div>
+      <div class="ach-card reveal rd1"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M1 19h8v2H1zm7-2l2-6 3 3 3-3 2 6H8zm8 2h7v2h-7zm0-2l2-6 3 3v5h-5z"/></svg></div><div><h4>Floor King</h4><p>Reach Floor 1,000. Reserved for those who have transcended.</p></div></div>
+      <div class="ach-card reveal rd2"><div class="ach-icon ach-gold"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l10 10-10 10L2 12z"/></svg></div><div><h4>Divine</h4><p>Purchase and equip the Holy Divine Set.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="gallery-inner">
+    <div class="gallery-header reveal">
+      <span class="eyebrow">In-Game Screenshots</span>
+      <h2 class="dmd">See the Tower</h2>
+      <p>Real gameplay captured on Solana Seeker.</p>
+    </div>
+    <div class="gallery-track" id="gallery-track">
+      <div class="gallery-card reveal"><img src="assets/screenshots/screenshot_floor1.webp" alt="Floor 1 Gameplay" style="width:200px;height:auto;border-radius:12px"/></div>
+      <div class="gallery-card reveal rd1"><img src="assets/screenshots/screenshot_shop.webp" alt="Equipment Shop" style="width:200px;height:auto;border-radius:12px"/></div>
+      <div class="gallery-card reveal rd2"><img src="assets/screenshots/screenshot_boss.webp" alt="Boss Encounter" style="width:200px;height:auto;border-radius:12px"/></div>
+      <div class="gallery-card reveal"><img src="assets/screenshots/screenshot_skills.webp" alt="Active Skills" style="width:200px;height:auto;border-radius:12px"/></div>
+      <div class="gallery-card reveal rd1"><img src="assets/screenshots/screenshot_divine.webp" alt="Holy Divine Set" style="width:200px;height:auto;border-radius:12px"/></div>
+      <div class="gallery-card reveal rd2"><img src="assets/screenshots/screenshot_achievements.webp" alt="Achievements" style="width:200px;height:auto;border-radius:12px"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEEKER -->
+<section class="seeker" id="seeker">
+  <div class="seeker-bg" data-parallax="0.2"></div>
+  <div class="seeker-glow"></div>
+  <div class="seeker-inner">
+    <div class="seeker-text reveal">
+      <span class="eyebrow">Platform</span>
+      <h2 class="dlg">Built for Solana Seeker</h2>
+      <p>Sol Ascension is not a port. It was designed from the ground up for the <a href="https://solanamobile.com" target="_blank" rel="noopener" style="color:var(--violet);text-decoration:underline;text-underline-offset:3px">Solana Seeker</a>, Solana Mobile's second-generation crypto-native Android device. Every transaction runs through the hardware Seed Vault, meaning your wallet is never exposed to the app itself.</p>
+      <div class="seeker-specs">
+        <div class="spec-item"><div class="spec-label">Platform</div><div class="spec-val">Android · Solana Seeker</div></div>
+        <div class="spec-item"><div class="spec-label">Distribution</div><div class="spec-val">Solana dApp Store — Coming Soon</div></div>
+        <div class="spec-item"><div class="spec-label">Transaction Security</div><div class="spec-val">Hardware Seed Vault</div></div>
+        <div class="spec-item"><div class="spec-label">Wallet Standard</div><div class="spec-val">Mobile Wallet Adapter</div></div>
+        <div class="spec-item"><div class="spec-label">Chain</div><div class="spec-val">Solana Mainnet</div></div>
+      </div>
+      <div class="seeker-actions">
+        <a class="btn btn--primary" href="https://solanamobile.com" target="_blank" rel="noopener">Learn About Seeker</a>
+        <span style="font-family:var(--font-display);font-size:11px;letter-spacing:.1em;color:var(--muted);align-self:center;">Coming Soon to the Solana dApp Store</span>
+      </div>
+    </div>
+    <div class="seeker-visual reveal rd1">
+      <div class="seeker-phone-glow"></div>
+      <img src="assets/seeker/seeker_mockup.png" alt="Solana Seeker Phone" style="width:240px;height:auto;margin:0 auto;filter:drop-shadow(0 0 30px rgba(107,33,232,0.4))"/>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section class="community" id="community">
+  <div class="community-glow"></div>
+  <div class="community-inner">
+    <div class="reveal">
+      <span class="eyebrow">Community</span>
+      <h2 class="dlg">Join the Climb</h2>
+      <p>Follow for patch notes, floor records, and behind-the-scenes dev updates.</p>
+    </div>
+    <div class="community-cards">
+      <a class="community-card community-card--x reveal" href="https://x.com/AscendForge" target="_blank" rel="noopener">
+        <div class="c-icon c-icon--x">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.258 5.636L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        </div>
+        <h3>Follow on X</h3>
+        <p>Patch notes, floor records, and community highlights posted regularly.</p>
+        <span class="c-handle">@AscendForge</span>
+        <span class="c-pill">Follow →</span>
+      </a>
+      <div class="community-card community-card--discord reveal rd1" style="cursor:default">
+        <div class="c-icon c-icon--discord">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.031.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        </div>
+        <h3>Discord</h3>
+        <p>If there's enough interest from the community, a Discord server may be created for strategy talk, floor records, and patch discussions.</p>
+        <span class="c-handle">Not available yet</span>
+        <span class="c-pill" style="background:rgba(255,255,255,.05);color:rgba(226,232,240,.4)">Watch this space</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="roadmap" id="roadmap">
+  <div class="roadmap-bg"></div>
+  <div class="roadmap-inner">
+    <div class="roadmap-header reveal">
+      <span class="eyebrow">What's Coming</span>
+      <h2 class="dlg">The Roadmap</h2>
+      <p>The tower isn't finished being built.</p>
+    </div>
+    <div class="roadmap-track">
+      <div class="roadmap-item reveal">
+        <div class="roadmap-phase phase--now">Now</div>
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-content">
+          <h3>v0.8: Submitted to Solana dApp Store</h3>
+          <div class="roadmap-tags">
+            <span class="rtag rtag--live">✓ Idle Combat</span>
+            <span class="rtag rtag--live">✓ 200+ Floors</span>
+            <span class="rtag rtag--live">✓ 4 Active Skills</span>
+            <span class="rtag rtag--live">✓ Holy Divine Set</span>
+            <span class="rtag rtag--live">✓ On-Chain Shop</span>
+            <span class="rtag rtag--live">✓ 18 Achievements</span>
+            <span class="rtag rtag--live">✓ Prestige Ascension</span>
+          </div>
+        </div>
+      </div>
+      <div class="roadmap-item reveal rd1">
+        <div class="roadmap-phase phase--next">Next</div>
+        <div class="roadmap-dot"></div>
+        <div class="roadmap-content">
+          <h3>Season 1: Global Leaderboard &amp; Rankings</h3>
+          <div class="roadmap-tags">
+            <span class="rtag rtag--coming">Global Floor Leaderboard</span>
+            <span class="rtag rtag--coming">Ascension Count Rankings</span>
+            <span class="rtag rtag--coming">Weekly Reset Cycles</span>
+            <span class="rtag rtag--coming">Season Rewards</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- CHANGELOG -->
+<section class="changelog" id="changelog">
+  <div class="changelog-bg"></div>
+  <div class="changelog-inner">
+    <div class="changelog-header reveal">
+      <span class="eyebrow">Version History</span>
+      <h2 class="dlg">Patch Notes</h2>
+      <p>Every build, every fix, every improvement. Every version tracked.</p>
+    </div>
+    <div class="cl-list">
+
+      <div class="cl-entry open reveal">
+        <div class="cl-head" onclick="toggleCL(this)">
+          <span class="cl-ver">v0.8</span>
+          <span class="cl-vtag vtag--latest">Latest</span>
+          <span class="cl-date">June 2026</span>
+          <span class="cl-toggle">▾</span>
+        </div>
+        <div class="cl-body">
+          <p class="cl-summary">Active skills system, mana orb mechanic, expanded achievements, ascension skill reset, and dApp Store submission preparation including privacy policy and terms pages.</p>
+          <div class="cl-groups">
+            <div>
+              <div class="cl-glabel cl-glabel--new">New</div>
+              <ul class="cl-items">
+                <li>Four active skills: War Cry (Floor 10), Midas Touch (Floor 20), Heavenly Strike (Floor 35), Shadow Clone (Floor 100)</li>
+                <li>Mana orb system, fills passively over time, depletes on skill activation, resets on ascension</li>
+                <li>Achievements expanded from 12 to 18 with progress bars on each badge</li>
+                <li>MASTERED tab replaces UNLOCKED for a cleaner achievement view</li>
+                <li>Privacy Policy page at /privacy and Terms of Use at /terms</li>
+                <li>Toast notification system replaces all browser alert() popups</li>
+              </ul>
+            </div>
+            <div>
+              <div class="cl-glabel cl-glabel--change">Changed</div>
+              <ul class="cl-items">
+                <li>Skills and mana reset fully on ascension, each run starts fresh</li>
+                <li>Ascension power bonus reduced from +20% to +10% per run for better long-term balance</li>
+                <li>Upgrade cost curve steepens faster, doubles every 4 levels instead of 5</li>
+                <li>LEGENDARY equipment rarity renamed to MYTHICAL for consistency</li>
+              </ul>
+            </div>
+            <div>
+              <div class="cl-glabel cl-glabel--fix">Fixed</div>
+              <ul class="cl-items">
+                <li>Floor 190 and Floor 200 Immortal Wall warning toasts now trigger reliably</li>
+                <li>shopOwned state now persists in save file, purchased items restore immediately on reload</li>
+                <li>Tap coordinate scaling fixed on high-DPI screens using canvas bounding rect</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cl-entry reveal rd1">
+        <div class="cl-head" onclick="toggleCL(this)">
+          <span class="cl-ver">v0.7</span>
+          <span class="cl-vtag vtag--major">Major</span>
+          <span class="cl-date">May 2026</span>
+          <span class="cl-toggle">▾</span>
+        </div>
+        <div class="cl-body">
+          <p class="cl-summary">MWA shop transactions fixed end-to-end. Domain migration to sol-ascension.com. Service worker for offline caching. Fairy event system added.</p>
+          <div class="cl-groups">
+            <div>
+              <div class="cl-glabel cl-glabel--new">New</div>
+              <ul class="cl-items">
+                <li>On-chain equipment shop powered by Mobile Wallet Adapter, purchase sets directly with SOL</li>
+                <li>sol-ascension.com domain live via Cloudflare registrar + Vercel hosting</li>
+                <li>Service worker (sw.js) for offline asset caching with visual progress reporting</li>
+                <li>TWA APK signed and submitted to Solana dApp Store</li>
+                <li>Fairy event system, random bonus gold drops during combat</li>
+              </ul>
+            </div>
+            <div>
+              <div class="cl-glabel cl-glabel--fix">Fixed</div>
+              <ul class="cl-items">
+                <li>MWA signAndSendTransactions parameter corrected to payloads array (not transactions)</li>
+                <li>Transaction encoding fixed to standard base64 with padding (was incorrectly base64url)</li>
+                <li>Wallet icon path changed to relative URI, required by dApp Store submission rules</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cl-entry reveal rd2">
+        <div class="cl-head" onclick="toggleCL(this)">
+          <span class="cl-ver">v0.6</span>
+          <span class="cl-vtag vtag--patch">Patch</span>
+          <span class="cl-date">April 2026</span>
+          <span class="cl-toggle">▾</span>
+        </div>
+        <div class="cl-body">
+          <p class="cl-summary">Core gameplay loop complete. Prestige ascension, equipment sets, cloud save via Upstash Redis, and global leaderboard at launch.</p>
+          <div class="cl-groups">
+            <div>
+              <div class="cl-glabel cl-glabel--new">New</div>
+              <ul class="cl-items">
+                <li>Prestige ascension system with permanent power multipliers that compound across runs</li>
+                <li>Five-tier equipment set shop, Common, Uncommon, Rare, Mythical, Holy Divine</li>
+                <li>Global leaderboard, floor and ascension count rankings via cloud backend</li>
+                <li>Cloud save synced to Solana wallet address via Upstash Redis</li>
+                <li>12 achievement badges at launch with unlock conditions</li>
+                <li>Boss encounters every 10 floors with scaling HP and damage</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="team">
+  <div class="team-bg"></div>
+  <div class="team-inner">
+    <div class="team-header reveal">
+      <span class="eyebrow">Behind the Game</span>
+      <h2 class="dlg">Meet the Developer</h2>
+      <p>Sol Ascension is built by one person. Every floor, every skill, every line of code.</p>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-avatar-wrap">
+        <img src="assets/team/polymonger.jpg" alt="polymonger" class="team-avatar"/>
+        <div class="team-avatar-glow"></div>
+        <span class="team-handle">@polymonger</span>
+      </div>
+      <div class="team-info">
+        <h3>polymonger</h3>
+        <span class="team-role">Solo Developer &amp; Creator</span>
+        <p class="team-bio">
+          polymonger is an independent developer building at the intersection of gaming and the Solana blockchain. Sol Ascension is a fully solo-built project covering game design, on-chain transaction systems, mobile publishing, and everything in between. Based in Southeast Asia, operating across the Solana Mobile ecosystem.
+        </p>
+        <div class="team-tags">
+          <span class="team-tag">Game Development</span>
+          <span class="team-tag">Solana Mobile</span>
+          <span class="team-tag">On-Chain Systems</span>
+          <span class="team-tag">Solo Indie Dev</span>
+          <span class="team-tag">Southeast Asia</span>
+        </div>
+        <div class="team-links">
+          <a class="team-link" href="https://x.com/polymonger" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.258 5.636L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+            @polymonger
+          </a>
+          <a class="team-link" href="https://github.com/polymonger" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final">
+  <div class="cta-bg" data-parallax="0.3"></div>
+  <div class="cta-glow"></div>
+  <div class="cta-fade"></div>
+  <div class="cta-inner reveal">
+    <span class="eyebrow">Your Journey Awaits</span>
+    <h2 class="dlg">Ascension Begins Now</h2>
+    <p>The tower has stood longer than memory. Every floor climbed is a floor no one thought you could reach. That changes with you.</p>
+    <div class="cta-actions">
+      <a class="btn btn--primary" href="#seeker">Coming to dApp Store</a>
+      <a class="btn btn--outline" href="#community">Join Community</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" style="text-decoration:none"><img src="assets/logo/logo.png" alt="Sol Ascension" style="height:28px;width:auto"/></a>
+  <ul class="footer-links">
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#changelog">Changelog</a></li>
+    <li><a href="https://x.com/AscendForge" target="_blank" rel="noopener">X / Twitter</a></li>
+    <li><a href="https://www.sol-ascension.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
+    <li><a href="https://www.sol-ascension.com/terms" target="_blank" rel="noopener">Terms of Use</a></li>
+    <li><a href="mailto:support@sol-ascension.com">Support</a></li>
+  </ul>
+  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260617</span> &nbsp;·&nbsp; 14 Jun 2026</div>
+</footer>
+
+<script>
+/* NAV */
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60),{passive:true});
+
+/* PARALLAX */
+const pEls=document.querySelectorAll('[data-parallax]');
+function doParallax(){
+  const sy=scrollY;
+  pEls.forEach(el=>{
+    const spd=parseFloat(el.dataset.parallax);
+    const off=(el.parentElement.getBoundingClientRect().top+sy)-sy;
+    el.style.transform=`translateY(${off*spd*-1}px)`;
+  });
+}
+window.addEventListener('scroll',doParallax,{passive:true});
+doParallax();
+
+/* SCROLL REVEAL */
+const rEls=document.querySelectorAll('.reveal');
+const rObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');rObs.unobserve(e.target);}});
+},{threshold:0.1});
+rEls.forEach(el=>rObs.observe(el));
+
+/* ASCENSION TIMELINE */
+const tWrap=document.querySelector('.asc-sticky-wrap');
+const mItems=document.querySelectorAll('.milestone');
+const sImgs=document.querySelectorAll('.stage-img');
+const aGlow=document.getElementById('asc-glow');
+const glows=['rgba(107,33,232,0.4)','rgba(107,33,232,0.45)','rgba(80,160,232,0.4)','rgba(200,80,232,0.45)','rgba(245,158,11,0.5)'];
+let curStage=-1;
+function setStage(i){
+  if(i===curStage)return;curStage=i;
+  mItems.forEach((m,j)=>m.classList.toggle('active',j===i));
+  sImgs.forEach((s,j)=>{s.classList.toggle('visible',j===i);s.style.position=j===i?'relative':'absolute';});
+  if(aGlow)aGlow.style.background=`radial-gradient(circle,${glows[i]},transparent 70%)`;
+}
+function onTScroll(){
+  if(!tWrap)return;
+  const r=tWrap.getBoundingClientRect();
+  const prog=Math.max(0,Math.min(1,-r.top/(tWrap.offsetHeight-innerHeight)));
+  setStage(Math.min(4,Math.floor(prog*5)));
+}
+// Trigger initial stage on load
+setStage(0);
+window.addEventListener('scroll',onTScroll,{passive:true});
+onTScroll();
+
+/* GALLERY DRAG — momentum scroll */
+const gt=document.getElementById('gallery-track');
+if(gt){
+  let isDown=false,startX=0,scrollLeft=0,velX=0,lastX=0,lastT=0,rafId=null;
+
+  function momentumScroll(){
+    if(Math.abs(velX)<0.5){cancelAnimationFrame(rafId);return;}
+    gt.scrollLeft+=velX;
+    velX*=0.92;
+    rafId=requestAnimationFrame(momentumScroll);
+  }
+
+  gt.addEventListener('mousedown',e=>{
+    isDown=true;
+    startX=e.clientX;
+    scrollLeft=gt.scrollLeft;
+    velX=0;lastX=e.clientX;lastT=Date.now();
+    gt.classList.add('dragging');
+    cancelAnimationFrame(rafId);
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove',e=>{
+    if(!isDown)return;
+    const dx=e.clientX-startX;
+    gt.scrollLeft=scrollLeft-dx;
+    const now=Date.now();
+    const dt=now-lastT||1;
+    velX=(lastX-e.clientX)/dt*16;
+    lastX=e.clientX;lastT=now;
+  });
+
+  document.addEventListener('mouseup',()=>{
+    if(!isDown)return;
+    isDown=false;
+    gt.classList.remove('dragging');
+    rafId=requestAnimationFrame(momentumScroll);
+  });
+
+  /* Touch */
+  let tStartX=0,tScrollLeft=0,tLastX=0,tLastT=0,tVel=0;
+  gt.addEventListener('touchstart',e=>{
+    tStartX=e.touches[0].clientX;
+    tScrollLeft=gt.scrollLeft;
+    tVel=0;tLastX=tStartX;tLastT=Date.now();
+    cancelAnimationFrame(rafId);
+  },{passive:true});
+
+  gt.addEventListener('touchmove',e=>{
+    const dx=e.touches[0].clientX-tStartX;
+    gt.scrollLeft=tScrollLeft-dx;
+    const now=Date.now();
+    const dt=now-tLastT||1;
+    tVel=(tLastX-e.touches[0].clientX)/dt*16;
+    tLastX=e.touches[0].clientX;tLastT=now;
+  },{passive:true});
+
+  gt.addEventListener('touchend',()=>{
+    velX=tVel;
+    rafId=requestAnimationFrame(momentumScroll);
+  },{passive:true});
+}
+
+/* CHANGELOG ACCORDION */
+function toggleCL(head){
+  const entry=head.parentElement;
+  const open=entry.classList.contains('open');
+  document.querySelectorAll('.cl-entry').forEach(e=>e.classList.remove('open'));
+  if(!open)entry.classList.add('open');
+}
+
+/* HAMBURGER */
+document.getElementById('hamburger').addEventListener('click',function(){this.classList.toggle('open');});
+</script>
+</body>
+</html>
