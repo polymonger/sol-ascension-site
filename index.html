@@ -478,35 +478,6 @@ a{color:inherit;text-decoration:none}
 }
 
 /* =============================================
-   TEAM
-============================================= */
-.team{padding:var(--sp);background:var(--void);position:relative;overflow:hidden}
-.team-bg{position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(107,33,232,.07),transparent);pointer-events:none}
-.team-inner{position:relative;z-index:2;max-width:900px;margin:0 auto;text-align:center}
-.team-header{margin-bottom:60px}
-.team-header p{margin-top:14px;font-size:16px;color:var(--muted);max-width:500px;margin-left:auto;margin-right:auto}
-.team-card{background:rgba(107,33,232,.04);border:1px solid rgba(107,33,232,.12);border-radius:20px;padding:48px 40px;display:flex;gap:48px;align-items:center;text-align:left;transition:border-color .3s}
-.team-card:hover{border-color:rgba(107,33,232,.28)}
-.team-avatar-wrap{flex-shrink:0;position:relative}
-.team-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:2px solid rgba(107,33,232,.3);display:block}
-.team-avatar-glow{position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,rgba(107,33,232,.25),transparent 70%);filter:blur(12px);z-index:-1}
-.team-handle{font-family:var(--font-display);font-size:11px;letter-spacing:.15em;color:var(--violet);text-align:center;margin-top:10px;display:block}
-.team-info h3{font-family:var(--font-display);font-size:24px;font-weight:700;color:var(--white);margin-bottom:6px;letter-spacing:.04em}
-.team-role{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:block}
-.team-bio{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:24px}
-.team-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
-.team-tag{font-size:11px;font-family:var(--font-display);letter-spacing:.08em;padding:4px 12px;border-radius:20px;background:rgba(107,33,232,.1);border:1px solid rgba(107,33,232,.2);color:#c28cff}
-.team-links{display:flex;gap:12px}
-.team-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--muted);padding:8px 16px;border-radius:6px;border:1px solid rgba(255,255,255,.1);transition:all .2s;text-decoration:none}
-.team-link:hover{color:var(--white);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
-@media(max-width:768px){
-  .team{padding:var(--sp-m)}
-  .team-card{flex-direction:column;text-align:center;padding:36px 24px;gap:28px}
-  .team-tags{justify-content:center}
-  .team-links{justify-content:center}
-}
-
-/* =============================================
    CTA FINAL
 ============================================= */
 .cta-final{position:relative;min-height:80vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
@@ -558,7 +529,6 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#changelog">Changelog</a></li>
     <li><a href="#community">Community</a></li>
-    <li><a href="#team">Team</a></li>
   </ul>
   <div style="display:flex;gap:10px;align-items:center">
     <a class="btn btn--primary" href="#seeker" style="padding:10px 20px;font-size:11px" id="nav-cta-btn">Coming Soon</a>
@@ -578,7 +548,7 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
         <span class="hero-kicker-dot"></span>
         <span class="hero-kicker-text">Coming Soon · Solana dApp Store</span>
       </div>
-      <h1 class="dxl">SOL<br>ASCENSION</h1>
+      <h1 class="dxl">CLIMB.<br>ASCEND.</h1>
       <p class="hero-sub">
         An idle RPG forged on the Solana blockchain. Climb a tower without a ceiling, master four active combat skills, and push further than any warrior before you.
       </p>
@@ -1056,13 +1026,13 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
       <p>Follow for patch notes, floor records, and behind-the-scenes dev updates.</p>
     </div>
     <div class="community-cards">
-      <a class="community-card community-card--x reveal" href="https://x.com/SolAscension_" target="_blank" rel="noopener">
+      <a class="community-card community-card--x reveal" href="https://x.com/AscendForge" target="_blank" rel="noopener">
         <div class="c-icon c-icon--x">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.258 5.636L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
         </div>
         <h3>Follow on X</h3>
         <p>Patch notes, floor records, and community highlights posted regularly.</p>
-        <span class="c-handle">@SolAscension_</span>
+        <span class="c-handle">@AscendForge</span>
         <span class="c-pill">Follow →</span>
       </a>
       <div class="community-card community-card--discord reveal rd1" style="cursor:default">
@@ -1244,25 +1214,25 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
     <div class="team-header reveal">
       <span class="eyebrow">Behind the Game</span>
       <h2 class="dlg">Meet the Developer</h2>
-      <p>Sol Ascension is built by one person. Every floor, every skill, every line of code.</p>
+      <p>Sol Ascension is built for Solana Mobile. Crafting games for the Solana Mobile ecosystem.</p>
     </div>
     <div class="team-card reveal">
       <div class="team-avatar-wrap">
-        <img src="assets/team/polymonger.jpg" alt="polymonger" class="team-avatar"/>
+        <img src="assets/team/AscendForge.png" alt="AscendForge" class="team-avatar"/>
         <div class="team-avatar-glow"></div>
         <span class="team-handle">@polymonger</span>
       </div>
       <div class="team-info">
         <h3>polymonger</h3>
-        <span class="team-role">Solo Developer &amp; Creator</span>
+        <span class="team-role">Independent Game Studio · Singapore</span>
         <p class="team-bio">
-          polymonger is an independent developer building at the intersection of gaming and the Solana blockchain. Sol Ascension is a fully solo-built project covering game design, on-chain transaction systems, mobile publishing, and everything in between. Based in Southeast Asia, operating across the Solana Mobile ecosystem.
+          polymonger is an independent developer building at the intersection of gaming and the Solana blockchain. Sol Ascension is a debut project covering game design, on-chain transaction systems, mobile publishing, and everything in between. Based in Southeast Asia, operating across the Solana Mobile ecosystem.
         </p>
         <div class="team-tags">
           <span class="team-tag">Game Development</span>
           <span class="team-tag">Solana Mobile</span>
           <span class="team-tag">On-Chain Systems</span>
-          <span class="team-tag">Solo Indie Dev</span>
+          <span class="team-tag">Indie Game Studio</span>
           <span class="team-tag">Southeast Asia</span>
         </div>
         <div class="team-links">
@@ -1298,16 +1268,16 @@ footer{background:#000;border-top:1px solid rgba(107,33,232,.1);padding:36px 40p
 
 <!-- FOOTER -->
 <footer>
-  <a href="#" style="text-decoration:none"><img src="assets/logo/logo.png" alt="Sol Ascension" style="height:28px;width:auto"/></a>
+  <div style="display:flex;flex-direction:column;gap:10px"><a href="#" style="text-decoration:none"><img src="assets/logo/logo.png" alt="Sol Ascension" style="height:28px;width:auto"/></a><a href="https://ascend-forge.vercel.app/" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;text-decoration:none;opacity:.7;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.7"><img src="assets/team/AscendForge.png" alt="AscendForge" style="height:18px;width:auto"/><span style="font-family:var(--font-display);font-size:9px;letter-spacing:.15em;color:var(--muted)">AN ASCENDFORGE GAME</span></a></div>
   <ul class="footer-links">
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#changelog">Changelog</a></li>
-    <li><a href="https://x.com/SolAscension_" target="_blank" rel="noopener">X / Twitter</a></li>
+    <li><a href="https://x.com/AscendForge" target="_blank" rel="noopener">X / Twitter</a></li>
     <li><a href="https://www.sol-ascension.com/privacy" target="_blank" rel="noopener">Privacy Policy</a></li>
     <li><a href="https://www.sol-ascension.com/terms" target="_blank" rel="noopener">Terms of Use</a></li>
     <li><a href="mailto:support@sol-ascension.com">Support</a></li>
   </ul>
-  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260615y</span> &nbsp;·&nbsp; 14 Jun 2026</div>
+  <div class="footer-copy">© 2026 Sol Ascension. All rights reserved. &nbsp;·&nbsp; <span style="color:rgba(107,33,232,.6);font-family:var(--font-display);letter-spacing:.08em">v0.8.260617c</span> &nbsp;·&nbsp; 14 Jun 2026</div>
 </footer>
 
 <script>
